@@ -39,6 +39,7 @@ public class DriveTrain extends Subsystem {
     	topRightMotor = new WPI_TalonSRX(RobotMap.topRightMotor);
     	bottomLeftMotor = new WPI_TalonSRX(RobotMap.bottomLeftMotor);
     	topLeftMotor = new WPI_TalonSRX(RobotMap.topLeftMotor);
+    	
 		
     	bottomRightMotor.setInverted(true);
 		topRightMotor.setInverted(true);

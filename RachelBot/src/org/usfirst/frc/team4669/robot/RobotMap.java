@@ -27,5 +27,9 @@ public class RobotMap {
 	public static final int botRight = 7;
 	public static final int topLeft = 5;
 	public static final int botLeft = 10;
+	public static final int f310 = 2;
+	public static final int leftJoystick = 0;
+	public static final int rightJoystick = 1;
+	
 	
 }

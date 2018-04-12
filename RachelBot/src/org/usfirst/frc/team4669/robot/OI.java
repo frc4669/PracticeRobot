@@ -1,11 +1,9 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.usfirst.frc.team4669.robot;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+
+//import org.usfirst.frc.team4669.robot.commands.ExampleCommand;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -17,7 +15,7 @@ public class OI {
 	//// joystick.
 	// You create one by telling it which joystick it's on and which button
 	// number it is.
-	// Joystick stick = new Joystick(port);
+
 	// Button button = new JoystickButton(stick, buttonNumber);
 
 	// There are a few additional built in buttons you can use. Additionally,
@@ -39,4 +37,88 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
+	
+	private Joystick leftStick = new Joystick(RobotMap.leftJoystick);
+	private Joystick rightStick = new Joystick(RobotMap.rightJoystick);
+	
+	//Getting Joystick values with a deadband
+	
+	public double leftY() { 
+		double joystickValue = leftStick.getY();
+		double joystickOffset = 0.075;
+		double absJoystickValue = Math.abs(joystickValue);
+		if (absJoystickValue > joystickOffset) {
+			double speed = absJoystickValue;
+			speed = (speed*speed) + joystickOffset;
+			if (joystickValue > 0) 
+				return speed;
+			else
+				return -speed;
+		}
+		else {
+			return 0;
+		}
+	}
+	public double leftX() {
+		double joystickValue = leftStick.getX();
+		double joystickOffset = 0.075;
+		double absJoystickValue = Math.abs(joystickValue);
+		if (absJoystickValue > joystickOffset) {
+			double speed = absJoystickValue;
+			speed = (speed*speed) + joystickOffset;
+			if (joystickValue > 0) 
+				return speed;
+			else
+				return -speed;
+		}
+		else {
+			return 0;
+		}
+	}
+	public double rightY() {
+		double joystickValue = rightStick.getY();
+		double joystickOffset = 0.075;
+		double absJoystickValue = Math.abs(joystickValue);
+		if (absJoystickValue > joystickOffset) {
+			double speed = absJoystickValue;
+			speed = (speed*speed) + joystickOffset;
+			if (joystickValue > 0) 
+				return speed;
+			else
+				return -speed;
+		}
+		else {
+			return 0;
+		}
+	}
+	public double rightX() {
+		double joystickValue = rightStick.getX();
+		double joystickOffset = 0.075;
+		double absJoystickValue = Math.abs(joystickValue);
+		if (absJoystickValue > joystickOffset) {
+			double speed = absJoystickValue;
+			speed = (speed*speed) + joystickOffset;
+			if (joystickValue > 0) 
+				return speed;
+			else
+				return -speed;
+		}
+		else {
+			return 0;
+		}
+	}
+	
+	public boolean getLeftRawButton(int button) {
+		return leftStick.getRawButton(button);
+	}
+	public boolean getRightRawButton(int button) {
+		return rightStick.getRawButton(button);
+	}
+	
+	public Joystick getLeftStick() {
+		return leftStick;
+	}
+	public Joystick getRightStick() {
+		return rightStick;
+	}
 }

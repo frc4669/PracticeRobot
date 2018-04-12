@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4669.robot.subsystems;
 
 import org.usfirst.frc.team4669.robot.RobotMap;
+import org.usfirst.frc.team4669.robot.commands.DriveRobot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -27,6 +28,7 @@ public class DriveTrain extends Subsystem {
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+		setDefaultCommand(new DriveRobot());
     }
     
     public DriveTrain() {
@@ -36,6 +38,11 @@ public class DriveTrain extends Subsystem {
     	topLeft = new WPI_TalonSRX(RobotMap.topLeft);
     	botLeft = new WPI_TalonSRX(RobotMap.botLeft);
     	//putting stuff in variable
+    	
+//    	topRight.setInverted(false);
+//	    botRight.setInverted(false);
+//	    topLeft.setInverted(true);
+//	    botLeft.setInverted(true);
     	
     	topRight.configContinuousCurrentLimit(20, 0); //long-term current limit
     	topRight.configPeakCurrentLimit(22, 0);		  //short-term current limit
@@ -64,10 +71,7 @@ public class DriveTrain extends Subsystem {
 		leftGroup = new SpeedControllerGroup(topLeft, botLeft);
 	    drive = new DifferentialDrive(leftGroup, rightGroup);
 	    
-	    topRight.setInverted(false);
-	    botRight.setInverted(false);
-	    topLeft.setInverted(true);
-	    botLeft.setInverted(true);
+	    
     }
     
     public void stop(){

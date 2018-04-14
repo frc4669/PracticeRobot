@@ -19,7 +19,6 @@ public class RobotMap {
 	//sprocket Motor control
 	public static final int sprocketMotor = 17;
 	
-	
 	//leftJoystick controls
 	public static final int leftJoystick = 0;
 	

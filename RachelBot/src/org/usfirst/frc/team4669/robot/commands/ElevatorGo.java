@@ -7,32 +7,31 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveRobot extends Command {
+public class ElevatorGo extends Command {
 
-    public DriveRobot() {
+    public ElevatorGo() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.driveTrain);
+    	requires(Robot.elevator);
     }
 
-    
     // Called just before this Command runs the first time
     protected void initialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.arcadeDrive(0.8*-Robot.oi.leftY(), 0.5*Robot.oi.rightX(), false);
+    	Robot.elevator.set(.8*Robot.oi.rightY());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return false;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.driveTrain.stop();
+    	Robot.elevator.stop();
     }
 
     // Called when another command which requires one or more of the same

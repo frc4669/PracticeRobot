@@ -30,6 +30,8 @@ public class RobotMap {
 	public static final int f310 = 2;
 	public static final int leftJoystick = 0;
 	public static final int rightJoystick = 1;
-	
-	
+	public static final int elevator = 11;
+	public static final int leftIntake = 1;
+	public static final int rightIntake = 2;
+	public static final int buttonBoard = 13;
 }

@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team4669.robot.subsystems.DriveTrain;
-
+import org.usfirst.frc.team4669.robot.subsystems.Elevator;
+import org.usfirst.frc.team4669.robot.subsystems.Intake;
+ 
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -24,6 +26,8 @@ import org.usfirst.frc.team4669.robot.subsystems.DriveTrain;
 public class Robot extends TimedRobot {
 	public static OI oi = new OI();
 	public static DriveTrain driveTrain = new DriveTrain();
+	public static Elevator elevator =  new Elevator();
+	public static Intake intake = new Intake();
 	public static F310 f310 = new F310();
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -115,4 +119,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 	}
+
+
 }

@@ -15,6 +15,8 @@ public class RobotMap {
 	public static final int topRightMotor = 8;
 	public static final int bottomRightMotor = 7;
 	public static final int bottomLeftMotor = 10;
+	public static final int intakeRightMotor = 2;
+	public static final int intakeLeftMotor = 1;
 
 	//sprocket Motor control
 	public static final int sprocketMotor = 17;
@@ -30,6 +32,7 @@ public class RobotMap {
 	
 	//Constants
 	public static final int timeout = 10; //units in ms
+	public static final double kCollisionThresholdDeltaG = 5;
 	
 	// If you are using multiple modules, make sure to define both the port
 	// number and the module. For example you with a rangefinder:

@@ -41,7 +41,7 @@ public class Elevator extends Subsystem {
     
     public void stop(){
     	elevator.set(0);
-    	}
+	}
     
     public void set(double value) {
     	elevator.set(ControlMode.PercentOutput, value);

@@ -14,6 +14,7 @@ import org.usfirst.frc.team4669.robot.commands.DoNothing;
 //import org.usfirst.frc.team4669.robot.commands.CloseClaw;
 //import org.usfirst.frc.team4669.robot.commands.ExampleCommand;
 import org.usfirst.frc.team4669.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team4669.robot.subsystems.IntakeSystem;
 //import org.usfirst.frc.team4669.robot.subsystems.ExampleSubsystem;
 //import org.usfirst.frc.team4669.robot.subsystems.GrabClaw;
 
@@ -30,6 +31,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi = new OI();
 	public static F310 f310 = new F310();
 	public static DriveTrain driveTrain = new DriveTrain();
+	public static IntakeSystem intake = new IntakeSystem();
 //	public static GrabClaw grabber = new GrabClaw();
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();

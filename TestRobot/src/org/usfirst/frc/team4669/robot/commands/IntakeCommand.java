@@ -8,23 +8,28 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class CurvatureDrive extends Command {
+public class IntakeCommand extends Command {
 
-    public CurvatureDrive() {
+    public IntakeCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.driveTrain);
+    	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.stop();
+    	Robot.intake.controlMotors(0);
     }
 
-    // Called repeatedly when this Command is scheduled to run
+   // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.curvatureDrive(0.8*Robot.f310.getLeftY(), 0.8*Robot.f310.getRightX(), Robot.f310.getButton(F310.rightShoulderButton));
-//    	Robot.driveTrain.arcadeDrive(0.8*Robot.f310.getLeftY(), 0.6*Robot.f310.getRightX(), true);
+    	if(Robot.f310.getButton(F310.redButton))
+    		Robot.intake.controlMotors(0.4);    		
+    	else if (Robot.f310.getButton(F310.orangeButton))
+    		Robot.intake.controlMotors(-0.4);
+    	else
+    		Robot.intake.controlMotors(0);
+    	//Reeeeee - Justin Yu 10/23/2018
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -39,6 +44,5 @@ public class CurvatureDrive extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
     }
 }

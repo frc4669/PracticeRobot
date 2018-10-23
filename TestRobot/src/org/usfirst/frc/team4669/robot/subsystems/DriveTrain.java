@@ -6,10 +6,12 @@ import org.usfirst.frc.team4669.robot.commands.CurvatureDrive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** @author Khanh Hoang
  *  @version 0.1
@@ -27,6 +29,11 @@ public class DriveTrain extends Subsystem {
 	private SpeedControllerGroup rightMotorGroup;
 	public DifferentialDrive drive;
 	
+	private AHRS imu;
+	
+	private double lastLinearAccelX = 0.0;
+	private double lastLinearAccelY = 0.0;
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
 //        setDefaultCommand(new TankDrive());
@@ -41,8 +48,8 @@ public class DriveTrain extends Subsystem {
     	topLeftMotor = new WPI_TalonSRX(RobotMap.topLeftMotor);
     	
 		
-    	bottomRightMotor.setInverted(true);
-		topRightMotor.setInverted(true);
+    	bottomRightMotor.setInverted(false);
+		topRightMotor.setInverted(false);
     	bottomLeftMotor.setInverted(false);
 		topLeftMotor.setInverted(false);
     	
@@ -53,7 +60,7 @@ public class DriveTrain extends Subsystem {
     	rightMotorGroup = new SpeedControllerGroup(topRightMotor, bottomRightMotor);
     	
     	leftMotorGroup.setInverted(false);
-    	rightMotorGroup.setInverted(true);
+    	rightMotorGroup.setInverted(false);
     	
     	drive = new DifferentialDrive(leftMotorGroup, rightMotorGroup);
 
@@ -92,14 +99,36 @@ public class DriveTrain extends Subsystem {
     	topRightMotor.set(0);
     }
     
-//  public void driveForward(double leftVBus, double rightVBus){
-//    	bottomRightMotor.set(ControlMode.PercentOutput,rightVBus);
-//    	topLeftMotor.set(ControlMode.PercentOutput,-leftVBus); //should probably invert left motor instead
-//  }
+	
+//	public boolean hasCollided(){
+//		boolean collisionDetected = false;
+//        
+//        double currLinearAccelX = imu.getWorldLinearAccelX();
+//        double currentJerkX = currLinearAccelX - lastLinearAccelX;
+//        lastLinearAccelX = currLinearAccelX;
+//        double currLinearAccelY = imu.getWorldLinearAccelY();
+//        double currentJerkY = currLinearAccelY - lastLinearAccelY;
+//        lastLinearAccelY = currLinearAccelY;
+//        
+//        if ( ( Math.abs(currentJerkX) > RobotMap.kCollisionThresholdDeltaG ) ||
+//             ( Math.abs(currentJerkY) > RobotMap.kCollisionThresholdDeltaG) ) {
+//            collisionDetected = true;
+//        }
+//        SmartDashboard.putBoolean(  "CollisionDetected", collisionDetected);
+//        
+//        return collisionDetected;
+//	}
     
     public void curvatureDrive(double xSpeed, double zRotation, boolean isQuickTurn){
     	drive.curvatureDrive(xSpeed, zRotation, isQuickTurn);
     }
     
+    public void arcadeDrive(double xSpeed, double zRotation, boolean squaredInputs){
+    	drive.arcadeDrive(xSpeed, zRotation, squaredInputs);
+    }
+    
+    public void tankDrive(double leftSpeed, double rightSpeed,boolean squaredInputs){
+    	drive.tankDrive(leftSpeed, rightSpeed,squaredInputs);
+    }
 }
 

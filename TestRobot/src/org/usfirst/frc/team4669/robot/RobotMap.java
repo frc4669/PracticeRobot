@@ -17,6 +17,7 @@ public class RobotMap {
 	public static final int bottomLeftMotor = 10;
 	public static final int intakeRightMotor = 2;
 	public static final int intakeLeftMotor = 1;
+	public static final int elevatorMotor = 11;
 
 	//sprocket Motor control
 	public static final int sprocketMotor = 17;

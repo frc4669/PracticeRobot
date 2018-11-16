@@ -22,21 +22,19 @@ public class IntakeSystem extends Subsystem {
    	private WPI_TalonSRX rightMotor;
 	private WPI_TalonSRX leftMotor;
 	
-	
-    public void initDefaultCommand() {
-    	
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new IntakeCommand());
-    }
-    
-    public IntakeSystem() {
+	public IntakeSystem() {
     	rightMotor = new WPI_TalonSRX(RobotMap.intakeRightMotor);
 		rightMotor.setNeutralMode(NeutralMode.Brake);
 		leftMotor = new WPI_TalonSRX(RobotMap.intakeLeftMotor);
 		leftMotor.setNeutralMode(NeutralMode.Brake);
 		leftMotor.setInverted(true);
 		rightMotor.setInverted(false);
+    }
+	
+    public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new IntakeCommand());
     }
     
     public void controlMotors(double percentage) {

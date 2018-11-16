@@ -1,10 +1,12 @@
 package org.usfirst.frc.team4669.robot.subsystems;
 
+import org.usfirst.frc.team4669.robot.Constants;
 import org.usfirst.frc.team4669.robot.RobotMap;
 import org.usfirst.frc.team4669.robot.commands.CurvatureDrive;
 //import org.usfirst.frc.team4669.robot.commands.TankDrive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -63,7 +65,11 @@ public class DriveTrain extends Subsystem {
     	rightMotorGroup.setInverted(false);
     	
     	drive = new DifferentialDrive(leftMotorGroup, rightMotorGroup);
-
+    	drive.setSafetyEnabled(false);
+    	
+    	topRightMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, Constants.kTimeoutMs); 
+    	topLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, Constants.kTimeoutMs); 
+    	
 		/* set the peak and nominal outputs, 1 means full */
 		topRightMotor.configNominalOutputForward(0, RobotMap.timeout);
 		topRightMotor.configNominalOutputReverse(0, RobotMap.timeout);
@@ -90,13 +96,30 @@ public class DriveTrain extends Subsystem {
 		//Setting bottom motors to follow top
 		bottomRightMotor.set(ControlMode.Follower, topRightMotor.getDeviceID());
 		bottomLeftMotor.set(ControlMode.Follower, topLeftMotor.getDeviceID());
+		
+		/* set closed loop gains in slot0 - see documentation */
+		topRightMotor.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
+		topRightMotor.config_kF(Constants.kSlotIdx, Constants.kF, Constants.kTimeoutMs);
+		topRightMotor.config_kP(Constants.kSlotIdx, Constants.kP, Constants.kTimeoutMs);
+		topRightMotor.config_kI(Constants.kSlotIdx, Constants.kI, Constants.kTimeoutMs);
+		topRightMotor.config_kD(Constants.kSlotIdx, Constants.kD, Constants.kTimeoutMs);
+		/* set acceleration and vcruise velocity - see documentation */
+		topRightMotor.configMotionCruiseVelocity(0, Constants.kTimeoutMs);
+		topRightMotor.configMotionAcceleration(0, Constants.kTimeoutMs); 
+		
+		/* set closed loop gains in slot0 - see documentation */
+		topLeftMotor.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
+		topLeftMotor.config_kF(Constants.kSlotIdx, Constants.kF, Constants.kTimeoutMs);
+		topLeftMotor.config_kP(Constants.kSlotIdx, Constants.kP, Constants.kTimeoutMs);
+		topLeftMotor.config_kI(Constants.kSlotIdx, Constants.kI, Constants.kTimeoutMs);
+		topLeftMotor.config_kD(Constants.kSlotIdx, Constants.kD, Constants.kTimeoutMs);
+		/* set acceleration and vcruise velocity - see documentation */
+		topLeftMotor.configMotionCruiseVelocity(Constants.cruiseVel, Constants.kTimeoutMs);
+		topLeftMotor.configMotionAcceleration(Constants.accel, Constants.kTimeoutMs); 
     }
     
     public void stop(){
-    	bottomLeftMotor.set(0);
-    	bottomRightMotor.set(0);
-    	topLeftMotor.set(0);
-    	topRightMotor.set(0);
+    	tankDrive(0,0,false);
     }
     
 	
@@ -129,6 +152,51 @@ public class DriveTrain extends Subsystem {
     
     public void tankDrive(double leftSpeed, double rightSpeed,boolean squaredInputs){
     	drive.tankDrive(leftSpeed, rightSpeed,squaredInputs);
+    }
+    
+    
+    public int getLeftEncoder() {
+    	return topLeftMotor.getSelectedSensorPosition(Constants.kPIDLoopIdx);
+    }
+    
+    public int getRightEncoder() {
+    	return topRightMotor.getSelectedSensorPosition(Constants.kPIDLoopIdx);
+    }
+    
+    public int getLeftEncoderSpeed() {
+    	return topLeftMotor.getSelectedSensorVelocity(Constants.kPIDLoopIdx);
+    }
+    
+    public int getRightEncoderSpeed() {
+    	return topRightMotor.getSelectedSensorVelocity(Constants.kPIDLoopIdx);
+    }
+    
+    public void setLeftSelectedSensorPosition(int sensorPos) {
+    	topLeftMotor.setSelectedSensorPosition(sensorPos, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+    }
+    
+    public void setRightSelectedSensorPosition(int sensorPos) {
+    	topRightMotor.setSelectedSensorPosition(sensorPos, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+    }
+    
+    /**
+     * @param distance The distance for robot to travel in encoder units
+     */
+    public void driveMotionMagic(double distance) {
+    	topLeftMotor.set(ControlMode.MotionMagic, distance); 
+    	topRightMotor.set(ControlMode.MotionMagic, distance); 
+    }
+    
+    public void setMotionVelAccel(int velocity,int accel) {
+		topLeftMotor.configMotionCruiseVelocity(velocity,RobotMap.timeout);
+		topLeftMotor.configMotionAcceleration(accel,RobotMap.timeout);
+		topRightMotor.configMotionCruiseVelocity(velocity,RobotMap.timeout);
+		topRightMotor.configMotionAcceleration(accel,RobotMap.timeout);
+    }
+    
+    public boolean motionMagicIsDone(double distance) {
+    	distance *= Constants.inchToEncoderUnits;
+    	return (Math.abs(distance-getLeftEncoder())<=200&&Math.abs(distance-getRightEncoder())<=200);
     }
 }
 

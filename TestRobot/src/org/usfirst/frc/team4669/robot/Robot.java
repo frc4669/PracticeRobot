@@ -2,6 +2,7 @@
 package org.usfirst.frc.team4669.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -9,11 +10,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4669.robot.commands.DoNothing;
+import org.usfirst.frc.team4669.robot.commands.MotionMagicTest;
 //import org.usfirst.frc.team4669.robot.commands.DriveForward;
 //import org.usfirst.frc.team4669.robot.commands.OpenClaw;
 //import org.usfirst.frc.team4669.robot.commands.CloseClaw;
 //import org.usfirst.frc.team4669.robot.commands.ExampleCommand;
 import org.usfirst.frc.team4669.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team4669.robot.subsystems.ElevatorRun;
 import org.usfirst.frc.team4669.robot.subsystems.IntakeSystem;
 //import org.usfirst.frc.team4669.robot.subsystems.ExampleSubsystem;
 //import org.usfirst.frc.team4669.robot.subsystems.GrabClaw;
@@ -32,6 +35,7 @@ public class Robot extends IterativeRobot {
 	public static F310 f310 = new F310();
 	public static DriveTrain driveTrain = new DriveTrain();
 	public static IntakeSystem intake = new IntakeSystem();
+	public static ElevatorRun elevator = new ElevatorRun();
 //	public static GrabClaw grabber = new GrabClaw();
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -44,7 +48,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		chooser.addDefault("Do nothing", new DoNothing());
-//		chooser.addObject("Drive Forward", new DriveForward(5));
+		chooser.addObject("Drive 36inches", new MotionMagicTest());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -60,6 +64,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
+		updateSmartDashboard();
 		Scheduler.getInstance().run();
 	}
 
@@ -96,6 +101,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		updateSmartDashboard();
+
 	}
 
 	@Override
@@ -113,6 +120,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		updateSmartDashboard();
 		Scheduler.getInstance().run();
 	}
 
@@ -122,5 +130,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+	}
+	
+	public void updateSmartDashboard() {
+    	SmartDashboard.putNumber("Left Position", driveTrain.getLeftEncoder());
+    	SmartDashboard.putNumber("Right Position", driveTrain.getRightEncoder());
+    	SmartDashboard.putNumber("Left Velocity", driveTrain.getLeftEncoderSpeed());
+    	SmartDashboard.putNumber("Right Velocity", driveTrain.getRightEncoderSpeed());
 	}
 }

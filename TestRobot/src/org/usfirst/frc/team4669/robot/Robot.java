@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4669.robot.commands.DoNothing;
 import org.usfirst.frc.team4669.robot.commands.MotionMagicTest;
+import org.usfirst.frc.team4669.robot.subsystems.Climber;
 //import org.usfirst.frc.team4669.robot.commands.DriveForward;
 //import org.usfirst.frc.team4669.robot.commands.OpenClaw;
 //import org.usfirst.frc.team4669.robot.commands.CloseClaw;
@@ -36,6 +37,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
 	public static IntakeSystem intake = new IntakeSystem();
 	public static ElevatorRun elevator = new ElevatorRun();
+	public static Climber climber = new Climber();
 //	public static GrabClaw grabber = new GrabClaw();
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();

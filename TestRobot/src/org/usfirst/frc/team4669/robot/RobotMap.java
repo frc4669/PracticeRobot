@@ -35,6 +35,12 @@ public class RobotMap {
 	public static final int timeout = 10; //units in ms
 	public static final double kCollisionThresholdDeltaG = 5;
 	
+	//0 is the placeholder :D
+	public static final int centerclimberID = 0;
+	public static final int leftclimberID = 0;
+	public static final int rightclimberID = 0;
+	public static final int stopClimb = 0;
+	public static final int climberButton = 0;
 	// If you are using multiple modules, make sure to define both the port
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;

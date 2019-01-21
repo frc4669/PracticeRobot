@@ -42,7 +42,6 @@ public class TeleopDrive extends Command {
             Robot.driveTrain.stop();
             turnRunning = false;
         } else if (turnRunning) {
-            System.out.println("Turning");
             Robot.driveTrain.tankDrive(Robot.driveTrain.getTurnOutput(), -Robot.driveTrain.getTurnOutput(), false);
         } else if (Robot.f310.getButton(F310.leftShoulderButton) && Robot.f310.getDPadPOV() == -1 && !turnRunning) {
             if (!angleSet) {
@@ -50,10 +49,8 @@ public class TeleopDrive extends Command {
                 angle = Robot.driveTrain.getAngle();
                 angleSet = true;
             }
-            System.out.println("Straight Driving");
             Robot.driveTrain.driveStraightGyro(Robot.f310.getLeftY(), angle, Constants.kPStraightGyro);
         } else {
-            System.out.println(((double) (Robot.driveTrain.getLeftEncoder()) / 4096) * 4);
             Robot.driveTrain.arcadeDrive(Robot.f310.getLeftY(), 0.6 * Robot.f310.getRightX(), false);
             angleSet = false;
         }

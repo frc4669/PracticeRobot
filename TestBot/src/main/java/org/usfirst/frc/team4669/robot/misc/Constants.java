@@ -14,8 +14,13 @@ public class Constants {
 	// Robot Constants
 	public static final double wheelDiameter = 4; // in inches
 	public static final double wheelBase = 22.25; // figure out real distance later
-
 	public static final int encoderTicksPerRotation = 4096;
+	public static final double shoulderLength = 29;
+	public static final double elbowLength = 21;
+	public static final double wristLength = 0;
+	public static final double shoulderGearRatio = 3;
+	public static final double elbowGearRatio = 3;
+	public static final double wristGearRatio = 2;
 
 	// Constants for Pathfinder
 	public static final double maxVel = 88.9; // units in inches
@@ -41,6 +46,21 @@ public class Constants {
 	 */
 	public static final double[] elevatorPID = { 0.977, 1.056, 0.006, 21.12, 50 };
 
+	/**
+	 * Array for accessing PID constants for arm {kF,kP,kI,kD,Integral zone}
+	 */
+	public static final double[] shoulderPID = { 1.26, 3, 0, 0, 50 };
+
+	/**
+	 * Array for accessing PID constants for arm {kF,kP,kI,kD,Integral zone}
+	 */
+	public static final double[] elbowPID = { 1.81, 3.1, 0.0002, 100, 50 };
+
+	/**
+	 * Array for accessing PID constants for arm {kF,kP,kI,kD,Integral zone}
+	 */
+	public static final double[] wristPID = { 1.76, 1.2, 0, 0, 50 };
+
 	public static final int timeout = 20;
 	public static final int baseTrajPeriodMs = 0;
 
@@ -50,6 +70,20 @@ public class Constants {
 
 	public static final int elevatorDownVel = 1300;
 	public static final int elevatorDownAccel = 2900;
+
+	public static final int driveVel = 2300;
+	public static final int driveAccel = 4600;
+
+	public static final double armScaleFactor = 1;
+
+	public static final int shoulderVel = (int) (150 * armScaleFactor);
+	public static final int shoulderAccel = (int) (300 * armScaleFactor);
+	public static final int elbowVel = (int) (200 * armScaleFactor);
+	public static final int elbowAccel = (int) (400 * armScaleFactor);
+	public static final int wristVel = (int) (500 * armScaleFactor);
+	public static final int wristAccel = (int) (1500 * armScaleFactor);
+
+	public static final int armTolerance = 10; // units of encoder ticks
 
 	// Encoder Heights for Elevator
 	public static final int elevatorSwitch = -10000;
@@ -77,8 +111,8 @@ public class Constants {
 	public static final int peakCurrentLimit = 22;
 	public static final int currentDuration = 50;
 
-	// Drive Train current limits
-	public static final int continuousCurrentLimitArm = 3;
-	public static final int peakCurrentLimitArm = 5;
+	// Arm current limits
+	public static final int continuousCurrentLimitArm = 8;
+	public static final int peakCurrentLimitArm = 10;
 
 }

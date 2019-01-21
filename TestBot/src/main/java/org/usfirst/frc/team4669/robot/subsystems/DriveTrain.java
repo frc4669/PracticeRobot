@@ -50,9 +50,6 @@ public class DriveTrain extends Subsystem {
 	private PIDOutputWrapper visionTurnOutput;
 	private PIDOutputWrapper visionDistanceOutput;
 
-	int velocity = 2300; // About 200 RPM, vel units are in sensor units per 100ms
-	int accel = 4600;
-
 	private Gyro gyro;
 
 	public DriveTrain() {
@@ -105,7 +102,7 @@ public class DriveTrain extends Subsystem {
 		setCurrentLimit(bottomLeftMotor);
 
 		/* set acceleration and vcruise velocity - see documentation */
-		setMotionVelAccel(velocity, accel);
+		setMotionVelAccel(Constants.driveVel, Constants.driveAccel);
 		topRightMotor.setSelectedSensorPosition(0, RobotMap.pidIdx, Constants.timeout);
 		topLeftMotor.setSelectedSensorPosition(0, RobotMap.pidIdx, Constants.timeout);
 
@@ -148,7 +145,7 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void driveMotionMagic(double targetEncPosition) {
-		setMotionVelAccel(this.velocity, this.accel);
+		setMotionVelAccel(Constants.driveVel, Constants.driveAccel);
 		topLeftMotor.set(ControlMode.MotionMagic, targetEncPosition);
 		topRightMotor.set(ControlMode.MotionMagic, targetEncPosition);
 	}

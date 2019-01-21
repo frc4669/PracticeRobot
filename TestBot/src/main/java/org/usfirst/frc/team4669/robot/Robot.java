@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain;
 	// public static CubeIntake intake;
 	// public static Climber climber;
-	public static Elevator elevator;
+	// public static Elevator elevator;
 	public static Arm arm;
 
 	Command autonomousCommand;
@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		// intake = new CubeIntake();
 		// climber = new Climber();
-		elevator = new Elevator();
+		// elevator = new Elevator();
 		networkTableInst = NetworkTableInstance.getDefault();
 		visionTable = networkTableInst.getTable("DataTable");
 		driveTrain = new DriveTrain();
@@ -62,6 +62,13 @@ public class Robot extends TimedRobot {
 		chooser.addDefault("Do Nothing", "DoNothing");
 		chooser.addObject("Pathfinder", "Pathfinder");
 		SmartDashboard.putData("Auto mode", chooser);
+
+		SmartDashboard.putNumber("Target Shoulder", 0);
+		SmartDashboard.putNumber("Target Elbow", 0);
+		SmartDashboard.putNumber("Target Wrist", 0);
+
+		SmartDashboard.putNumber("Target X", 0);
+		SmartDashboard.putNumber("Target Y", 0);
 	}
 
 	/**
@@ -156,15 +163,42 @@ public class Robot extends TimedRobot {
 	}
 
 	public void updateSmartDashboard() {
-		SmartDashboard.putNumber("Gyro Angle", driveTrain.getAngle());
-		SmartDashboard.putNumber("Vision Turn Error", driveTrain.getPIDError(driveTrain.getVisionTurnController()));
-		SmartDashboard.putNumber("Vision Distance Error",
-				driveTrain.getPIDError(driveTrain.getVisionDistanceController()));
-		SmartDashboard.putData("Gyro PID Controller", driveTrain.gyroPID);
-		SmartDashboard.putData("Vision Turn PID Controller", driveTrain.getVisionTurnController());
-		SmartDashboard.putData("Vision Distance PID Controller", driveTrain.getVisionDistanceController());
-		SmartDashboard.putData("Align to Ball", new AlignToBall());
-		SmartDashboard.putNumber("Left Encoder", Robot.driveTrain.getLeftEncoder());
-		SmartDashboard.putNumber("Right Encoder", Robot.driveTrain.getRightEncoder());
+		// SmartDashboard.putNumber("Gyro Angle", driveTrain.getAngle());
+		// SmartDashboard.putNumber("Vision Turn Error",
+		// driveTrain.getPIDError(driveTrain.getVisionTurnController()));
+		// SmartDashboard.putNumber("Vision Distance Error",
+		// driveTrain.getPIDError(driveTrain.getVisionDistanceController()));
+		// SmartDashboard.putData("Gyro PID Controller", driveTrain.gyroPID);
+		// SmartDashboard.putData("Vision Turn PID Controller",
+		// driveTrain.getVisionTurnController());
+		// SmartDashboard.putData("Vision Distance PID Controller",
+		// driveTrain.getVisionDistanceController());
+		// SmartDashboard.putData("Align to Ball", new AlignToBall());
+		// SmartDashboard.putNumber("Left Encoder", driveTrain.getLeftEncoder());
+		// SmartDashboard.putNumber("Right Encoder",
+		// Robot.driveTrain.getRightEncoder());
+		SmartDashboard.putNumber("Shoulder Position", arm.getEncoderPosition(arm.getShoulderMotor()));
+		SmartDashboard.putNumber("Shoulder Velocity", arm.getEncoderVelocity(arm.getShoulderMotor()));
+		SmartDashboard.putNumber("Elbow Position", arm.getEncoderPosition(arm.getElbowMotor()));
+		SmartDashboard.putNumber("Elbow Velocity", arm.getEncoderVelocity(arm.getElbowMotor()));
+		SmartDashboard.putNumber("Wrist Position", arm.getEncoderPosition(arm.getWristMotor()));
+		SmartDashboard.putNumber("Wrist Velocity", arm.getEncoderVelocity(arm.getWristMotor()));
+		SmartDashboard.putNumber("Shoulder Angle", arm.getMotorAngle(arm.getShoulderMotor()));
+		SmartDashboard.putNumber("Elbow Angle", arm.getMotorAngle(arm.getElbowMotor()));
+		SmartDashboard.putNumber("Wrist Angle", arm.getMotorAngle(arm.getWristMotor()));
+		double targetShoulder = SmartDashboard.getNumber("Target Shoulder", 0);
+		double targetElbow = SmartDashboard.getNumber("Target Elbow", 0);
+		double targetWrist = SmartDashboard.getNumber("Target Wrist", 0);
+
+		double targetX = SmartDashboard.getNumber("Target X", 0);
+		double targetY = SmartDashboard.getNumber("Target Y", 50);
+
+		// SmartDashboard.putData("Start Arm Magic", new ArmMotionMagic(targetShoulder,
+		// targetElbow, targetWrist));
+		// SmartDashboard.putData("Set Arm Angle", new ArmAngleSet(targetShoulder,
+		// targetElbow, targetWrist));
+
+		SmartDashboard.putData("Arm to Position", new ArmToPosition(targetX, targetY));
+		SmartDashboard.putData("Zero Arm Encoders", new ZeroArmEncoders());
 	}
 }

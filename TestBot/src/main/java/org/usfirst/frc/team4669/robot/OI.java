@@ -81,7 +81,7 @@ public class OI {
 	}
 
 	public double extremeY() {
-		double joystickValue = extremeStick.getY();
+		double joystickValue = -extremeStick.getY();
 		return deadzone(joystickValue);
 	}
 

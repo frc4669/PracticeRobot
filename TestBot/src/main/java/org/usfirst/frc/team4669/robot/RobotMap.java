@@ -31,8 +31,8 @@ public class RobotMap {
 	public static final int driveBottomRight = 7;
 
 	public static final int leftIntake = 1;
-	public static final int rightIntake = 2;
-	public static final int elevator = 11;
+	// public static final int rightIntake = 2;
+	// public static final int elevator = 11;
 	// public static final int rightClimber = 9;
 	// public static final int centerClimber = 13;
 	// public static final int leftClimber = 6;
@@ -48,8 +48,8 @@ public class RobotMap {
 	public static final int slotIdx = 0;
 	public static final int pidIdx = 0;
 
-	public static final int shoulderMotor = 9;
+	public static final int shoulderMotor = 11;
 	public static final int wristMotor = 13;
-	public static final int elbowMotor = 6;
+	public static final int elbowMotor = 2;
 
 }

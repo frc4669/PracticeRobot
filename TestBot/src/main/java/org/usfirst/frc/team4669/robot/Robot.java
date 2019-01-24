@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain;
 	// public static CubeIntake intake;
 	// public static Climber climber;
-	// public static Elevator elevator;
+	public static Elevator elevator;
 	public static Arm arm;
 
 	Command autonomousCommand;
@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		// intake = new CubeIntake();
 		// climber = new Climber();
-		// elevator = new Elevator();
+		elevator = new Elevator();
 		networkTableInst = NetworkTableInstance.getDefault();
 		visionTable = networkTableInst.getTable("DataTable");
 		driveTrain = new DriveTrain();
@@ -69,6 +69,9 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putNumber("Target X", 0);
 		SmartDashboard.putNumber("Target Y", 0);
+		SmartDashboard.putNumber("Target Right Elevator Vel", 0);
+		SmartDashboard.putNumber("Target Left Elevator Vel", 0);
+
 	}
 
 	/**
@@ -195,10 +198,20 @@ public class Robot extends TimedRobot {
 
 		// SmartDashboard.putData("Start Arm Magic", new ArmMotionMagic(targetShoulder,
 		// targetElbow, targetWrist));
-		// SmartDashboard.putData("Set Arm Angle", new ArmAngleSet(targetShoulder,
-		// targetElbow, targetWrist));
+		SmartDashboard.putData("Set Arm Angle", new ArmAngleSet(targetShoulder, targetElbow, targetWrist));
 
 		SmartDashboard.putData("Arm to Position", new ArmToPosition(targetX, targetY));
 		SmartDashboard.putData("Zero Arm Encoders", new ZeroArmEncoders());
+
+		SmartDashboard.putNumber("Acceleration X", Robot.elevator.getAccelX());
+		SmartDashboard.putNumber("Acceleration Y", Robot.elevator.getAccelY());
+
+		double rightElevatorVel = SmartDashboard.getNumber("Target Right Elevator Vel", 0);
+		double leftElevatorVel = SmartDashboard.getNumber("Target Left Elevator Vel", 0);
+
+		SmartDashboard.putData("Set Elevator Speed", new SetElevatorVelocity(leftElevatorVel, rightElevatorVel));
+		SmartDashboard.putNumber("Right Elevator Vel", Robot.elevator.getEncoderVel(Robot.elevator.getRightMotor()));
+		SmartDashboard.putNumber("Left Elevator Vel", Robot.elevator.getEncoderVel(Robot.elevator.getLeftMotor()));
+
 	}
 }

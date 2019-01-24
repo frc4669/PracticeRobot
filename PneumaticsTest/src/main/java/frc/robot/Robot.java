@@ -45,9 +45,11 @@ public class Robot extends SampleRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private F310 f310 = new F310();
-  private Solenoid enabler = new Solenoid(5);
-  private DoubleSolenoid doubleAction = new DoubleSolenoid(0, 1);
-  boolean solenoidOn = false;
+  private Solenoid leftEnabler = new Solenoid(5);
+  private Solenoid rightEnabler = new Solenoid(4);
+  private DoubleSolenoid leftDoubleAction = new DoubleSolenoid(0, 1);
+  private DoubleSolenoid rightDoubleAction = new DoubleSolenoid(3, 2);
+  private boolean solenoidOn = false;
 
   public Robot() {
     m_robotDrive.setExpiration(0.1);
@@ -161,14 +163,17 @@ public class Robot extends SampleRobot {
   public void operatorControl() {
     m_robotDrive.setSafetyEnabled(true);
     while (isOperatorControl() && isEnabled()) {
-      enabler.set(true);
+      leftEnabler.set(true);
+      rightEnabler.set(true);
       if (f310.getButtonPressed(2)) // Red Button
         solenoidOn = !solenoidOn;
-      if (solenoidOn)
-        doubleAction.set(DoubleSolenoid.Value.kForward);
-      else
-        doubleAction.set(DoubleSolenoid.Value.kReverse);
-
+      if (solenoidOn) {
+        leftDoubleAction.set(DoubleSolenoid.Value.kForward);
+        rightDoubleAction.set(DoubleSolenoid.Value.kForward);
+      } else {
+        leftDoubleAction.set(DoubleSolenoid.Value.kReverse);
+        rightDoubleAction.set(DoubleSolenoid.Value.kReverse);
+      }
       // The motors will be updated every 5ms
       Timer.delay(0.005);
     }

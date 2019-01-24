@@ -1,160 +1,194 @@
-// package org.usfirst.frc.team4669.robot.subsystems;
+package org.usfirst.frc.team4669.robot.subsystems;
 
-// import org.usfirst.frc.team4669.robot.RobotMap;
+import org.usfirst.frc.team4669.robot.RobotMap;
+import org.usfirst.frc.team4669.robot.commands.TeleopClimber;
 // import org.usfirst.frc.team4669.robot.commands.TeleopElevator;
-// import org.usfirst.frc.team4669.robot.misc.Constants;
+import org.usfirst.frc.team4669.robot.misc.Constants;
 
-// import com.ctre.phoenix.ParamEnum;
-// import com.ctre.phoenix.motorcontrol.ControlMode;
-// import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-// import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
-// import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-// import edu.wpi.first.wpilibj.DigitalInput;
-// import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
-// /**
-// *
-// */
-// public class Elevator extends Subsystem {
+/**
+*
+*/
+public class Elevator extends Subsystem {
 
-// private WPI_TalonSRX elevatorMotor;
+    private WPI_TalonSRX leftMotor;
+    private WPI_TalonSRX rightMotor;
+    private Accelerometer accel;
 
-// private int timeout = Constants.timeout;
-// private int slotIdx = RobotMap.slotIdx;
-// private int pidIdx = RobotMap.pidIdx;
+    private int timeout = Constants.timeout;
+    private int slotIdx = RobotMap.slotIdx;
+    private int pidIdx = RobotMap.pidIdx;
 
-// // Put methods for controlling this subsystem
-// // here. Call these from Commands.
+    // Put methods for controlling this subsystem
+    // here. Call these from Commands.
 
-// public Elevator() {
-// super();
-// elevatorMotor = new WPI_TalonSRX(RobotMap.elevator);
+    public Elevator() {
+        super();
+        leftMotor = new WPI_TalonSRX(RobotMap.leftMotorElevator);
+        rightMotor = new WPI_TalonSRX(RobotMap.rightMotorElevator);
 
-// // Set relevant frame periods to be at least as fast as periodic rate
-// elevatorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0,
-// 10, timeout);
-// elevatorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic,
-// 10, timeout);
+        accel = new BuiltInAccelerometer();
 
-// elevatorMotor.configNominalOutputForward(0, timeout);
-// elevatorMotor.configNominalOutputReverse(0, timeout);
-// elevatorMotor.configPeakOutputForward(1, timeout);
-// elevatorMotor.configPeakOutputReverse(-1, timeout);
+        setupMotor(leftMotor, false);
+        setupMotor(rightMotor, true);
+    }
 
-// // Configuring PID Values
-// elevatorMotor.selectProfileSlot(slotIdx, pidIdx);
-// elevatorMotor.config_kF(slotIdx, Constants.elevatorPID[0], timeout);
-// elevatorMotor.config_kP(slotIdx, Constants.elevatorPID[1], timeout);
-// elevatorMotor.config_kI(slotIdx, Constants.elevatorPID[2], timeout);
-// elevatorMotor.config_kD(slotIdx, Constants.elevatorPID[3], timeout);
-// elevatorMotor.config_IntegralZone(slotIdx, (int) Constants.elevatorPID[4],
-// timeout);
+    public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        // setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new TeleopClimber());
+    }
 
-// // Sets up sensor
-// elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-// pidIdx, timeout);
-// elevatorMotor.setSelectedSensorPosition(0, pidIdx, timeout);
-// elevatorMotor.setSensorPhase(false);
-// elevatorMotor.setInverted(false);
+    public void percentOutputLeft(double percent) {
+        leftMotor.set(ControlMode.PercentOutput, percent);
+    }
 
-// // Sets up velocity and acceleration for motion magic
-// elevatorMotor.configMotionCruiseVelocity(Constants.elevatorVel,
-// Constants.timeout);
-// elevatorMotor.configMotionAcceleration(Constants.elevatorAccel,
-// Constants.timeout);
+    public void percentOutputRight(double percent) {
+        rightMotor.set(ControlMode.PercentOutput, percent);
+    }
 
-// // Sets current limits
-// elevatorMotor.configContinuousCurrentLimit(12, timeout);
-// elevatorMotor.configPeakCurrentLimit(15, timeout);
-// elevatorMotor.configPeakCurrentDuration(100, timeout);
-// elevatorMotor.enableCurrentLimit(true);
+    // public void setHeight(double height) {
+    // elevatorMotor.configMotionCruiseVelocity(Constants.elevatorVel,
+    // Constants.timeout);
+    // elevatorMotor.configMotionAcceleration(Constants.elevatorAccel,
+    // Constants.timeout);
+    // elevatorMotor.set(ControlMode.MotionMagic, height);
+    // }
 
-// // Zero encoders on fwd limit or bottom limit
-// elevatorMotor.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0,
-// 10);
+    // public void controlHeight(double power, double initialPos) {
+    // elevatorMotor.configMotionCruiseVelocity(400, Constants.timeout);
+    // elevatorMotor.configMotionAcceleration(400, Constants.timeout);
+    // double targetPos = initialPos;
+    // double distanceToTravel = (int) (3 * 4096 / (Math.PI * 2)); // 3 inches max,2
+    // inch sprocket diameter
+    // targetPos += power * distanceToTravel;
+    // elevatorMotor.set(ControlMode.MotionMagic, targetPos);
+    // }
 
-// // Sets reverse soft limit
-// // elevatorMotor.configReverseSoftLimitThreshold(RobotMap.elevatorMax,
-// // RobotMap.timeout);
-// elevatorMotor.configReverseSoftLimitEnable(false, Constants.timeout);
+    // public void groundHeight() {
+    // elevatorMotor.configMotionCruiseVelocity(Constants.elevatorDownVel,
+    // Constants.timeout);
+    // elevatorMotor.configMotionAcceleration(Constants.elevatorDownAccel,
+    // Constants.timeout);
+    // elevatorMotor.set(ControlMode.MotionMagic, 0);
 
-// // //Sets forward soft limit
-// // elevatorMotor.configForwardSoftLimitThreshold(0, RobotMap.timeout);
-// elevatorMotor.configForwardSoftLimitEnable(false, Constants.timeout);
+    // }
 
-// }
+    // public double getClosedLoopError() {
+    // return elevatorMotor.getClosedLoopError(0);
+    // }
 
-// public void initDefaultCommand() {
-// // Set the default command for a subsystem here.
-// // setDefaultCommand(new MySpecialCommand());
-// setDefaultCommand(new TeleopElevator());
-// }
+    public void stop() {
+        leftMotor.set(0);
+        rightMotor.set(0);
+    }
 
-// public void percentOutput(double percent) {
-// elevatorMotor.set(ControlMode.PercentOutput, percent);
-// }
+    public void setupMotor(TalonSRX talon, boolean invert) {
+        talon.configFactoryDefault();
+        talon.configNominalOutputForward(0, timeout);
+        talon.configNominalOutputReverse(0, timeout);
+        talon.configPeakOutputForward(1, timeout);
+        talon.configPeakOutputReverse(-1, timeout);
 
-// public void setHeight(double height) {
-// elevatorMotor.configMotionCruiseVelocity(Constants.elevatorVel,
-// Constants.timeout);
-// elevatorMotor.configMotionAcceleration(Constants.elevatorAccel,
-// Constants.timeout);
-// elevatorMotor.set(ControlMode.MotionMagic, height);
-// }
+        // Sets current limits
+        talon.configContinuousCurrentLimit(12, timeout);
+        talon.configPeakCurrentLimit(15, timeout);
+        talon.configPeakCurrentDuration(100, timeout);
+        talon.enableCurrentLimit(true);
 
-// public void controlHeight(double power, double initialPos) {
-// elevatorMotor.configMotionCruiseVelocity(400, Constants.timeout);
-// elevatorMotor.configMotionAcceleration(400, Constants.timeout);
-// double targetPos = initialPos;
-// double distanceToTravel = (int) (3 * 4096 / (Math.PI * 2)); // 3 inches max,
-// 2 inch sprocket diameter
-// targetPos += power * distanceToTravel;
-// elevatorMotor.set(ControlMode.MotionMagic, targetPos);
-// }
+        // Sets up sensor
+        talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeout);
+        talon.setSensorPhase(false);
+        talon.setInverted(invert);
+        talon.setSelectedSensorPosition(0, pidIdx, timeout);
 
-// public void groundHeight() {
-// elevatorMotor.configMotionCruiseVelocity(Constants.elevatorDownVel,
-// Constants.timeout);
-// elevatorMotor.configMotionAcceleration(Constants.elevatorDownAccel,
-// Constants.timeout);
-// elevatorMotor.set(ControlMode.MotionMagic, 0);
+        // Configuring PID Values
+        talon.selectProfileSlot(slotIdx, pidIdx);
+        talon.config_kF(slotIdx, Constants.elevatorPID[0], timeout);
+        talon.config_kP(slotIdx, Constants.elevatorPID[1], timeout);
+        talon.config_kI(slotIdx, Constants.elevatorPID[2], timeout);
+        talon.config_kD(slotIdx, Constants.elevatorPID[3], timeout);
+        talon.config_IntegralZone(slotIdx, (int) Constants.elevatorPID[4], timeout);
 
-// }
+        // Set relevant frame periods to be at least as fast as periodic rate
+        talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, timeout);
+        talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, timeout);
 
-// public double getClosedLoopError() {
-// return elevatorMotor.getClosedLoopError(0);
-// }
+        // Sets up velocity and acceleration for motion magic
+        talon.configMotionCruiseVelocity(Constants.elevatorVel, Constants.timeout);
+        talon.configMotionAcceleration(Constants.elevatorAccel, Constants.timeout);
 
-// public void stop() {
-// elevatorMotor.set(0);
-// }
+        // Zero encoders on fwd limit or bottom limit
+        talon.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, 10);
 
-// public double getEncoderPos() {
-// return elevatorMotor.getSensorCollection().getQuadraturePosition();
-// }
+        // Sets reverse soft limit
+        // talon.configReverseSoftLimitThreshold(RobotMap.elevatorMax,
+        // RobotMap.timeout);
+        talon.configReverseSoftLimitEnable(false, Constants.timeout);
 
-// public double getEncoderVel() {
-// return elevatorMotor.getSensorCollection().getQuadratureVelocity();
-// }
+        // //Sets forward soft limit
+        // talon.configForwardSoftLimitThreshold(0, RobotMap.timeout);
+        talon.configForwardSoftLimitEnable(false, Constants.timeout);
+    }
 
-// public double getMotorOutput() {
-// return elevatorMotor.getMotorOutputPercent();
-// }
+    public double getEncoderPos(TalonSRX talon) {
+        return talon.getSelectedSensorPosition();
+    }
 
-// public void zeroEncoders() {
-// elevatorMotor.setSelectedSensorPosition(0, pidIdx, timeout);
-// }
+    public double getEncoderVel(TalonSRX talon) {
+        return talon.getSelectedSensorVelocity();
+    }
 
-// public boolean getForwardLimit() {
-// return elevatorMotor.getSensorCollection().isFwdLimitSwitchClosed();
-// }
+    public double getMotorOutput(TalonSRX talon) {
+        return talon.getMotorOutputPercent();
+    }
 
-// public boolean getReverseLimit() {
-// return elevatorMotor.getSensorCollection().isRevLimitSwitchClosed();
-// }
+    public void zeroEncoders() {
+        leftMotor.setSelectedSensorPosition(0, pidIdx, timeout);
+        rightMotor.setSelectedSensorPosition(0, pidIdx, timeout);
+    }
 
-// public void zeroVelocity() {
-// elevatorMotor.set(ControlMode.Velocity, 0);
-// }
-// }
+    public boolean getForwardLimit(TalonSRX talon) {
+        return talon.getSensorCollection().isFwdLimitSwitchClosed();
+    }
+
+    public boolean getReverseLimit(TalonSRX talon) {
+        return talon.getSensorCollection().isRevLimitSwitchClosed();
+    }
+
+    public void zeroVelocity(TalonSRX talon) {
+        talon.set(ControlMode.Velocity, 0);
+    }
+
+    public double getAccelX() {
+        return accel.getX();
+    }
+
+    public double getAccelY() {
+        return accel.getY();
+    }
+
+    public TalonSRX getLeftMotor() {
+        return leftMotor;
+    }
+
+    public TalonSRX getRightMotor() {
+        return rightMotor;
+    }
+
+    public void setVelocity(TalonSRX talon, double velocity) {
+        talon.set(ControlMode.Velocity, velocity);
+    }
+}

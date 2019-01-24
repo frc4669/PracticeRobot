@@ -24,6 +24,10 @@ public class Arm extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+  double a1 = Constants.shoulderLength;
+  double a2 = Constants.elbowLength;
+  double a3 = Constants.wristLength;
+
   private WPI_TalonSRX shoulderMotor;
   private WPI_TalonSRX elbowMotor;
   private WPI_TalonSRX wristMotor;
@@ -40,8 +44,8 @@ public class Arm extends Subsystem {
     elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
     wristMotor = new WPI_TalonSRX(RobotMap.wristMotor);
 
-    talonConfig(shoulderMotor, false);
-    talonConfig(elbowMotor, false);
+    talonConfig(shoulderMotor, true);
+    talonConfig(elbowMotor, true);
     talonConfig(wristMotor, false);
 
     setCurrentLimit(elbowMotor);
@@ -103,10 +107,6 @@ public class Arm extends Subsystem {
    * @return Angle to rotate shoulder motor
    */
   public double targetToAngleShoulder(double x, double y) {
-    double a1 = Constants.shoulderLength;
-    double a2 = Constants.elbowLength;
-    double a3 = Constants.wristLength;
-
     double x1 = x - a3; // Target length minus wrist length
 
     double angleRad = Math.acos((Math.pow(a2, 2) - Math.pow(a1, 2) - Math.pow(x1, 2) - Math.pow(y, 2))
@@ -125,10 +125,6 @@ public class Arm extends Subsystem {
    * @return Angle to rotate elbow motor
    */
   public double targetToAngleElbow(double x, double y) {
-    double a1 = Constants.shoulderLength;
-    double a2 = Constants.elbowLength;
-    double a3 = Constants.wristLength;
-
     double x1 = x - a3; // Target length minus wrist length
 
     double angleRad = Math.acos((Math.pow(x1, 2) + Math.pow(y, 2) - Math.pow(a1, 2) - Math.pow(a2, 2)) / (-2 * a1 * a2))
@@ -144,7 +140,7 @@ public class Arm extends Subsystem {
    * @param jointTalon Which joint arm motor to use
    * @param degrees    Target angle in degrees
    */
-  public void setToAngle(TalonSRX jointTalon, double degrees) {
+  public void setToAngle(TalonSRX jointTalon, double degrees, boolean joystickControl) {
     double sprocketRatio = 0;
     if (jointTalon == shoulderMotor)
       sprocketRatio = Constants.shoulderGearRatio;
@@ -154,8 +150,27 @@ public class Arm extends Subsystem {
       sprocketRatio = Constants.wristGearRatio;
     if (sprocketRatio != 0) {
       double targetPos = degrees * Constants.encoderTicksPerRotation * sprocketRatio / 360;
-      setMotorPos(jointTalon, targetPos);
+      if (!joystickControl)
+        setMotorPosMagic(jointTalon, targetPos);
+      else
+        setMotorPos(jointTalon, targetPos);
     }
+  }
+
+  public double getX() {
+    double shoulderAngle = getMotorAngle(getShoulderMotor());
+    double elbowAngle = getMotorAngle(getElbowMotor());
+    double x = a3 + a1 * Math.cos(Math.toRadians(shoulderAngle))
+        + a2 * Math.cos(Math.toRadians(shoulderAngle) - Math.toRadians(elbowAngle));
+    return x;
+  }
+
+  public double getY() {
+    double shoulderAngle = getMotorAngle(getShoulderMotor());
+    double elbowAngle = getMotorAngle(getElbowMotor());
+    double y = a1 * Math.sin(Math.toRadians(shoulderAngle))
+        + a2 * Math.sin(Math.toRadians(shoulderAngle) - Math.toRadians(elbowAngle));
+    return y;
   }
 
   /**
@@ -164,8 +179,18 @@ public class Arm extends Subsystem {
    * @param talon     Joint motor to control
    * @param targetPos Target encoder position
    */
-  public void setMotorPos(TalonSRX talon, double targetPos) {
+  public void setMotorPosMagic(TalonSRX talon, double targetPos) {
     talon.set(ControlMode.MotionMagic, targetPos);
+  }
+
+  /**
+   * Uses Position Closed Loop to set motors to a target encoder position
+   * 
+   * @param talon     Joint motor to control
+   * @param targetPos Target encoder position
+   */
+  public void setMotorPos(TalonSRX talon, double targetPos) {
+    talon.set(ControlMode.Position, targetPos);
   }
 
   public void setMotionVelAccel(TalonSRX talon, int velocity, int accel) {

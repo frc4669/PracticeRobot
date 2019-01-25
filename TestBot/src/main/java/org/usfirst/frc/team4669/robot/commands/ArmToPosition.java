@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class ArmToPosition extends CommandGroup {
 
-  public ArmToPosition(double x, double y) {
+  public ArmToPosition(double x, double y, boolean flipUp) {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -32,9 +32,14 @@ public class ArmToPosition extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
     double shoulderAngle, elbowAngle, wristAngle;
-    shoulderAngle = Robot.arm.targetToAngleShoulder(x, y);
-    elbowAngle = Robot.arm.targetToAngleElbow(x, y);
-    wristAngle = 0;
-    addSequential(new ArmAngleSet(shoulderAngle, elbowAngle, wristAngle));
+    // shoulderAngle = Robot.arm.targetToAngleShoulder(x, y);
+    // elbowAngle = Robot.arm.targetToAngleElbow(x, y);
+    if (Robot.arm.calculateAngles(x, y, flipUp) != null) {
+      shoulderAngle = Robot.arm.calculateAngles(x, y, flipUp)[0];
+      elbowAngle = Robot.arm.calculateAngles(x, y, flipUp)[1];
+      wristAngle = 0;
+      if (!(shoulderAngle != shoulderAngle || elbowAngle != elbowAngle))
+        addSequential(new ArmAngleSet(shoulderAngle, elbowAngle, wristAngle));
+    }
   }
 }

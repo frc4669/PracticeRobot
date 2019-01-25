@@ -57,37 +57,37 @@ public class OI {
 	// Getting joystick values
 	public double leftY() {
 		double joystickValue = leftStick.getY();
-		return deadzone(joystickValue);
+		return deadzone(joystickValue, 0.09);
 	}
 
 	public double leftX() {
 		double joystickValue = leftStick.getX();
-		return deadzone(joystickValue);
+		return deadzone(joystickValue, 0.09);
 	}
 
 	public double rightY() {
 		double joystickValue = rightStick.getY();
-		return deadzone(joystickValue);
+		return deadzone(joystickValue, 0.09);
 	}
 
 	public double rightX() {
 		double joystickValue = rightStick.getX();
-		return deadzone(joystickValue);
+		return deadzone(joystickValue, 0.09);
 	}
 
 	public double extremeX() {
 		double joystickValue = extremeStick.getX();
-		return deadzone(joystickValue);
+		return deadzone(joystickValue, 0.09);
 	}
 
 	public double extremeY() {
 		double joystickValue = -extremeStick.getY();
-		return deadzone(joystickValue);
+		return deadzone(joystickValue, 0.09);
 	}
 
 	public double extremeZ() {
 		double joystickValue = extremeStick.getZ();
-		return deadzone(joystickValue);
+		return deadzone(joystickValue, 0.09);
 	}
 
 	public boolean getLeftRawButton(int button) {
@@ -114,8 +114,8 @@ public class OI {
 		return extremeStick;
 	}
 
-	private double deadzone(double joystickValue) {
-		double joystickOffset = 0.075;
+	private double deadzone(double joystickValue, double offset) {
+		double joystickOffset = offset;
 		double absJoystickValue = Math.abs(joystickValue);
 		if (absJoystickValue > joystickOffset) {
 			double speed = absJoystickValue;

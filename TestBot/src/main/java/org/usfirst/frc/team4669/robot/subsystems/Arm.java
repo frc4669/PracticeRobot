@@ -99,8 +99,8 @@ public class Arm extends Subsystem {
   }
 
   /**
-   * Method to get the angle to get angle to provide to the shoulder motor to get
-   * to a target (x,y) position
+   * Method to get the angle to provide to the shoulder motor to get to a target
+   * (x,y) position
    * 
    * @param x Target length away from the base of the arm. Units in inches
    * @param y Target height away from the base of the arm. Units in inches
@@ -117,8 +117,8 @@ public class Arm extends Subsystem {
   }
 
   /**
-   * Method to get the angle to get angle to provide to the elbow motor to get to
-   * a target (x,y) position
+   * Method to get the angle to provide to the elbow motor to get to a target
+   * (x,y) position
    * 
    * @param x Target length away from the base of the arm. Units in inches
    * @param y Target height away from the base of the arm. Units in inches
@@ -132,6 +132,49 @@ public class Arm extends Subsystem {
 
     double angleDeg = Math.toDegrees(angleRad);
     return angleDeg;
+  }
+
+  /**
+   * Method to get the angle to provide to the arm motors to get to a target (x,y)
+   * position
+   * 
+   * @param x      Target length away from the base of the arm. Units in inches
+   * @param y      Target height away from the base of the arm. Units in inches
+   * @param flipUp Changes whether to flip up the elbow or not
+   * @return An array with the shoulder angle and elbow angle, or null or not a
+   *         number if impossible
+   */
+  public double[] calculateAngles(double x, double y, boolean flipUp) {
+    double x1 = x - a3; // Target length minus wrist length
+    double distance = Math.sqrt(Math.pow(x1, 2) + Math.pow(y, 2)); // distance is a function of arm base and target xy
+    if (Math.abs(distance - (a1 + a2)) < 1)
+      return null;
+    // elbow angle is a function of distance
+    // if distance> a1+a2 return false
+    // if distance<a1-a2 return false
+    // if absolute val of elbow angle is >100 deg return false
+    // shoulders to distance vector angle
+    // shoulder angle is arcsin of (ytarget/distance) + shoulder to distance vector
+    // angle
+    // check shoulder angle if less than 0 or greater than 180 return false
+    // for elbow bending up, subtract from arcsin instead
+
+    double elbowRad = Math.acos((Math.pow(distance, 2) - Math.pow(a1, 2) - Math.pow(a2, 2)) / (-2 * a1 * a2)) - Math.PI;
+    if (flipUp)
+      elbowRad = -elbowRad;
+    double shoulderRad;
+    if (flipUp)
+      shoulderRad = Math.atan2(y, x1)
+          - Math.acos((Math.pow(a2, 2) - Math.pow(a1, 2) - Math.pow(x1, 2) - Math.pow(y, 2)) / (-2 * a1 * distance));
+    else
+      shoulderRad = Math.atan2(y, x1)
+          + Math.acos((Math.pow(a2, 2) - Math.pow(a1, 2) - Math.pow(x1, 2) - Math.pow(y, 2)) / (-2 * a1 * distance));
+    double elbowDeg = Math.toDegrees(elbowRad);
+    double shoulderDeg = Math.toDegrees(shoulderRad);
+    if (shoulderDeg < 0 || shoulderDeg > 180 || Math.abs(elbowDeg) > 110)
+      return null;
+    double[] anglesArr = { shoulderDeg, elbowDeg };
+    return anglesArr;
   }
 
   /**

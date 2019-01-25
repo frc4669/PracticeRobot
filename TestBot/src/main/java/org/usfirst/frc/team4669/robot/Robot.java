@@ -69,9 +69,7 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putNumber("Target X", 0);
 		SmartDashboard.putNumber("Target Y", 0);
-		SmartDashboard.putNumber("Target Right Elevator Vel", 0);
-		SmartDashboard.putNumber("Target Left Elevator Vel", 0);
-
+		SmartDashboard.putBoolean("Flip Elbow", false);
 	}
 
 	/**
@@ -154,7 +152,22 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSmartDashboard();
+		testSmartDashboard();
 
+	}
+
+	@Override
+	public void testInit() {
+		SmartDashboard.putNumber("Target Shoulder", 0);
+		SmartDashboard.putNumber("Target Elbow", 0);
+		SmartDashboard.putNumber("Target Wrist", 0);
+
+		SmartDashboard.putNumber("Target X", 0);
+		SmartDashboard.putNumber("Target Y", 0);
+		SmartDashboard.putBoolean("Flip Elbow", false);
+
+		// SmartDashboard.putNumber("Target Right Elevator Vel", 0);
+		// SmartDashboard.putNumber("Target Left Elevator Vel", 0);
 	}
 
 	/**
@@ -162,10 +175,16 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		Scheduler.getInstance().run();
+		testSmartDashboard();
 
 	}
 
 	public void updateSmartDashboard() {
+
+	}
+
+	public void testSmartDashboard() {
 		// SmartDashboard.putNumber("Gyro Angle", driveTrain.getAngle());
 		// SmartDashboard.putNumber("Vision Turn Error",
 		// driveTrain.getPIDError(driveTrain.getVisionTurnController()));
@@ -199,8 +218,9 @@ public class Robot extends TimedRobot {
 		// SmartDashboard.putData("Start Arm Magic", new ArmMotionMagic(targetShoulder,
 		// targetElbow, targetWrist));
 		SmartDashboard.putData("Set Arm Angle", new ArmAngleSet(targetShoulder, targetElbow, targetWrist));
+		boolean flipUp = SmartDashboard.getBoolean("Flip Elbow", false);
 
-		SmartDashboard.putData("Arm to Position", new ArmToPosition(targetX, targetY));
+		SmartDashboard.putData("Arm to Position", new ArmToPosition(targetX, targetY, flipUp));
 		SmartDashboard.putData("Zero Arm Encoders", new ZeroArmEncoders());
 
 		SmartDashboard.putNumber("Acceleration X", Robot.elevator.getAccelX());

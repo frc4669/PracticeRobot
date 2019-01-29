@@ -27,19 +27,15 @@ public class Constants {
 	public static final double maxVel = 88.9; // units in inches
 
 	/**
-	 * Array for accessing PID constants for the drive train turning
+	 * Array for accessing PID constants for turning drive train
 	 * {kF,kP,kI,kD,Integral Zone}
 	 */
 	public static final double[] driveTrainPID = { 0.3343, 0.4, 0.0003, 20, 50 };
 
-	/**
-	 * Array for accessing PID constants for the gyro turning {kP,kI,kD}
-	 */
+	/** Array for accessing PID constants for the gyro turning {kP,kI,kD} */
 	public static final double[] gyroPID = { 0.25, 0, 0.045 };
 
-	/**
-	 * Array for accessing PID constants for vision {kP,kI,kD}
-	 */
+	/** Array for accessing PID constants for vision {kP,kI,kD} */
 	public static final double[] cameraPID = { 0.8, 0, 0 };
 
 	/**
@@ -47,19 +43,13 @@ public class Constants {
 	 */
 	public static final double[] elevatorPID = { 0.977, 1.056, 0.006, 21.12, 50 };
 
-	/**
-	 * Array for accessing PID constants for arm {kF,kP,kI,kD,Integral zone}
-	 */
+	/** Array for accessing PID constants for arm {kF,kP,kI,kD,Integral zone} */
 	public static final double[] shoulderPID = { 1.26, 3, 0, 0, 50 };
 
-	/**
-	 * Array for accessing PID constants for arm {kF,kP,kI,kD,Integral zone}
-	 */
+	/** Array for accessing PID constants for arm {kF,kP,kI,kD,Integral zone} */
 	public static final double[] elbowPID = { 1.81, 3.1, 0.0002, 100, 50 };
 
-	/**
-	 * Array for accessing PID constants for arm {kF,kP,kI,kD,Integral zone}
-	 */
+	/** Array for accessing PID constants for arm {kF,kP,kI,kD,Integral zone} */
 	public static final double[] wristPID = { 1.76, 1.2, 0, 0, 50 };
 
 	public static final int timeout = 10;
@@ -111,6 +101,8 @@ public class Constants {
 
 	public static final int angleTolerance = 2;
 	public static final double kPStraightGyro = 0.025;
+
+	public static final int driveTolerance = 200;
 
 	// Drive Train current limits
 	public static final int continuousCurrentLimit = 20;

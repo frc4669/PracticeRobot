@@ -42,7 +42,7 @@ public class ExtendLeftElevator extends Command {
       return true;
     }
     if (Robot.oi.getLeftRawButton(10)) {
-      return false;
+      return true;
     } else
       return false;
   }

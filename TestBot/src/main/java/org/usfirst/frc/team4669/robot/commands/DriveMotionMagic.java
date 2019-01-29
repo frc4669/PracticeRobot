@@ -46,7 +46,8 @@ public class DriveMotionMagic extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return ((Math.abs(distance * Constants.inchToEncoderDrive - Robot.driveTrain.getRightEncoder()) < 200)
+        return ((Math.abs(distance * Constants.inchToEncoderDrive
+                - Robot.driveTrain.getRightEncoder()) < Constants.driveTolerance)
                 || Robot.f310.getButton(F310.redButton));
     }
 

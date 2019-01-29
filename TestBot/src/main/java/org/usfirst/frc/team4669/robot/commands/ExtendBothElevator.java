@@ -12,10 +12,10 @@ import org.usfirst.frc.team4669.robot.misc.Constants;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ExtendRightElevator extends Command {
+public class ExtendBothElevator extends Command {
   double position;
 
-  public ExtendRightElevator(double positionInches) {
+  public ExtendBothElevator(double positionInches) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     this.position = positionInches * Constants.inchToEncoderElevator;
@@ -26,6 +26,7 @@ public class ExtendRightElevator extends Command {
   @Override
   protected void initialize() {
     Robot.elevator.stop();
+    Robot.elevator.setMotionMagic(Robot.elevator.getLeftMotor(), position);
     Robot.elevator.setMotionMagic(Robot.elevator.getRightMotor(), position);
   }
 
@@ -37,8 +38,9 @@ public class ExtendRightElevator extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (Math
-        .abs(position - Robot.elevator.getEncoderPos(Robot.elevator.getRightMotor())) < Constants.elevatorTolerance) {
+    if (Math.abs(position - Robot.elevator.getEncoderPos(Robot.elevator.getLeftMotor())) < Constants.elevatorTolerance
+        && Math.abs(
+            position - Robot.elevator.getEncoderPos(Robot.elevator.getRightMotor())) < Constants.elevatorTolerance) {
       return true;
     }
     if (Robot.oi.getLeftRawButton(10)) {

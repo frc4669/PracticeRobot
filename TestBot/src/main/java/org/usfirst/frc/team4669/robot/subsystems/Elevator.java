@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 */
 public class Elevator extends Subsystem {
 
+    private WPI_TalonSRX wheelMotor;
     private WPI_TalonSRX leftMotor;
     private WPI_TalonSRX rightMotor;
     private Accelerometer accel;
@@ -38,11 +39,14 @@ public class Elevator extends Subsystem {
         super();
         leftMotor = new WPI_TalonSRX(RobotMap.leftMotorElevator);
         rightMotor = new WPI_TalonSRX(RobotMap.rightMotorElevator);
+        wheelMotor = new WPI_TalonSRX(RobotMap.wheelMotorElevator);
 
         accel = new BuiltInAccelerometer();
 
-        setupMotor(leftMotor, false);
-        setupMotor(rightMotor, true);
+        setupMotor(leftMotor, false, Constants.elevatorPID, Constants.elevatorVel, Constants.elevatorAccel, false);
+        setupMotor(rightMotor, true, Constants.elevatorPID, Constants.elevatorVel, Constants.elevatorAccel, false);
+        setupMotor(wheelMotor, false, Constants.elevatorWheelPID, Constants.elevatorWheelVel,
+                Constants.elevatorWheelAccel, true);
     }
 
     public void initDefaultCommand() {
@@ -95,7 +99,8 @@ public class Elevator extends Subsystem {
         rightMotor.set(0);
     }
 
-    public void setupMotor(TalonSRX talon, boolean invert) {
+    public void setupMotor(TalonSRX talon, boolean invert, double[] pidArray, int motionMagicVel, int motionMagicAccel,
+            boolean isWheel) {
         talon.configFactoryDefault();
         talon.configNominalOutputForward(0, timeout);
         talon.configNominalOutputReverse(0, timeout);
@@ -120,31 +125,24 @@ public class Elevator extends Subsystem {
 
         // Configuring PID Values
         talon.selectProfileSlot(slotIdx, pidIdx);
-        talon.config_kF(slotIdx, Constants.elevatorPID[0], timeout);
-        talon.config_kP(slotIdx, Constants.elevatorPID[1], timeout);
-        talon.config_kI(slotIdx, Constants.elevatorPID[2], timeout);
-        talon.config_kD(slotIdx, Constants.elevatorPID[3], timeout);
-        talon.config_IntegralZone(slotIdx, (int) Constants.elevatorPID[4], timeout);
+        talon.config_kF(slotIdx, pidArray[0], timeout);
+        talon.config_kP(slotIdx, pidArray[1], timeout);
+        talon.config_kI(slotIdx, pidArray[2], timeout);
+        talon.config_kD(slotIdx, pidArray[3], timeout);
+        talon.config_IntegralZone(slotIdx, (int) pidArray[4], timeout);
 
         // Set relevant frame periods to be at least as fast as periodic rate
         talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, timeout);
         talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, timeout);
 
         // Sets up velocity and acceleration for motion magic
-        talon.configMotionCruiseVelocity(Constants.elevatorVel, Constants.timeout);
-        talon.configMotionAcceleration(Constants.elevatorAccel, Constants.timeout);
+        talon.configMotionCruiseVelocity(motionMagicVel, Constants.timeout);
+        talon.configMotionAcceleration(motionMagicAccel, Constants.timeout);
 
-        // Zero encoders on fwd limit or bottom limit
-        talon.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, 10);
-
-        // Sets reverse soft limit
-        // talon.configReverseSoftLimitThreshold(RobotMap.elevatorMax,
-        // RobotMap.timeout);
-        talon.configReverseSoftLimitEnable(false, Constants.timeout);
-
-        // //Sets forward soft limit
-        // talon.configForwardSoftLimitThreshold(0, RobotMap.timeout);
-        talon.configForwardSoftLimitEnable(false, Constants.timeout);
+        if (isWheel) {
+            // Zero encoders on fwd limit or bottom limit
+            talon.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, 10);
+        }
     }
 
     public void setMotionMagic(TalonSRX talon, double position) {
@@ -194,6 +192,10 @@ public class Elevator extends Subsystem {
 
     public TalonSRX getRightMotor() {
         return rightMotor;
+    }
+
+    public TalonSRX getWheelMotor() {
+        return wheelMotor;
     }
 
     public void setVelocity(TalonSRX talon, double velocity) {

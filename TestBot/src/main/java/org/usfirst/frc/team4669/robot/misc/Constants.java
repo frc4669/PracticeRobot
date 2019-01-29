@@ -13,6 +13,7 @@ package org.usfirst.frc.team4669.robot.misc;
 public class Constants {
 	// Robot Constants
 	public static final double wheelDiameter = 4; // in inches
+	public static final double elevatorSprocketDiameter = 1.775; // in inches
 	public static final double wheelBase = 22.25; // figure out real distance later
 	public static final int encoderTicksPerRotation = 4096;
 	public static final double shoulderLength = 29;
@@ -61,7 +62,7 @@ public class Constants {
 	 */
 	public static final double[] wristPID = { 1.76, 1.2, 0, 0, 50 };
 
-	public static final int timeout = 20;
+	public static final int timeout = 10;
 	public static final int baseTrajPeriodMs = 0;
 
 	// Velocities & Acceleration for Motion Magic
@@ -85,21 +86,26 @@ public class Constants {
 
 	public static final int armTolerance = 10; // units of encoder ticks
 
-	// Encoder Heights for Elevator
-	public static final int elevatorSwitch = -10000;
-	public static final int elevatorExchange = -2450;
-	public static final int elevatorLift = -1200;
-	public static final int elevatorScaleMid = -23000;
-	public static final int elevatorMax = -27295;
+	// Elevator Constants
+	public static final double elevatorTolerance = 10;
+	public static final double wheelElevatorOffset = 6;
+	public static final double level3Height = 19 + wheelElevatorOffset;
 
 	// Conversion factors and quick maffs
 	public static final double wheelCircumference = Math.PI * wheelDiameter;
+	public static final double elevatorSprocketCircumference = Math.PI * elevatorSprocketDiameter;
 
-	// Multiply encoder ticks by this to convert to inches
-	public static final double encoderToInch = wheelCircumference / encoderTicksPerRotation;
+	/** Multiply encoder ticks by this to convert to inches for drive train */
+	public static final double encoderToInchDrive = wheelCircumference / encoderTicksPerRotation;
 
-	// Multiply inches by this to convert to encoder ticks
-	public static final double inchToEncoder = encoderTicksPerRotation / wheelCircumference;
+	/** Multiply inches by this to convert to encoder ticks for drive train */
+	public static final double inchToEncoderDrive = encoderTicksPerRotation / wheelCircumference;
+
+	/** Multiply encoder ticks by this to convert to inches for elevator */
+	public static final double encoderToInchElevator = elevatorSprocketCircumference / encoderTicksPerRotation;
+
+	/** Multiply inches by this to convert to encoder ticks for elevator */
+	public static final double inchToEncoderElevator = encoderTicksPerRotation / elevatorSprocketCircumference;
 
 	public static final double distancePerRotation = wheelBase * Math.PI / 4;
 

@@ -159,7 +159,7 @@ public class DriveTrain extends Subsystem {
 
 	public void turnMagic(double angle) {
 		setMotionVelAccel(1365, 6825);
-		double d = -(Constants.wheelBase * Math.PI * (angle / 360.0) * Constants.inchToEncoder);
+		double d = -(Constants.wheelBase * Math.PI * (angle / 360.0) * Constants.inchToEncoderDrive);
 		topLeftMotor.set(ControlMode.MotionMagic, -d);
 		topRightMotor.set(ControlMode.MotionMagic, d);
 		System.out.println(d);
@@ -317,6 +317,9 @@ public class DriveTrain extends Subsystem {
 		talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, RobotMap.pidIdx, Constants.timeout);
 		talon.setInverted(!left);
 		talon.setSensorPhase(true);
+
+		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.timeout);
+		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.timeout);
 
 		talon.selectProfileSlot(RobotMap.slotIdx, RobotMap.pidIdx);
 		talon.config_kF(RobotMap.slotIdx, Constants.driveTrainPID[0], Constants.timeout);

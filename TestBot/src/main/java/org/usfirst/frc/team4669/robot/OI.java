@@ -7,7 +7,13 @@
 
 package org.usfirst.frc.team4669.robot;
 
+import org.usfirst.frc.team4669.robot.commands.ExtendLeftElevator;
+import org.usfirst.frc.team4669.robot.commands.ExtendRightElevator;
+import org.usfirst.frc.team4669.robot.misc.Constants;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -43,15 +49,18 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 
 	// Joystick variables
-	private Joystick leftStick;
-	private Joystick rightStick;
-	private Joystick extremeStick;
+	private Joystick leftStick = new Joystick(RobotMap.leftJoystick);
+	private Joystick rightStick = new Joystick(RobotMap.rightJoystick);
+	private Joystick extremeStick = new Joystick(RobotMap.extremeJoystick);
+
+	private Button[] leftButtons = new Button[11];
 
 	public OI() {
-		// Mapping joysticks
-		leftStick = new Joystick(RobotMap.leftJoystick);
-		rightStick = new Joystick(RobotMap.rightJoystick);
-		extremeStick = new Joystick(RobotMap.extremeJoystick);
+		for (int i = 1; i <= 11; i++) {
+			leftButtons[i] = new JoystickButton(leftStick, i);
+		}
+		leftButtons[5].whenPressed(new ExtendRightElevator(Constants.level3Height));
+		leftButtons[4].whenPressed(new ExtendLeftElevator(Constants.level3Height));
 	}
 
 	// Getting joystick values

@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import org.usfirst.frc.team4669.robot.RobotMap;
-import org.usfirst.frc.team4669.robot.commands.ArmCommand;
+import org.usfirst.frc.team4669.robot.commands.ArmManualControl;
 import org.usfirst.frc.team4669.robot.misc.Constants;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -36,7 +36,7 @@ public class Arm extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new ArmCommand());
+    setDefaultCommand(new ArmManualControl());
   }
 
   public Arm() {
@@ -99,42 +99,6 @@ public class Arm extends Subsystem {
   }
 
   /**
-   * Method to get the angle to provide to the shoulder motor to get to a target
-   * (x,y) position
-   * 
-   * @param x Target length away from the base of the arm. Units in inches
-   * @param y Target height away from the base of the arm. Units in inches
-   * @return Angle to rotate shoulder motor
-   */
-  public double targetToAngleShoulder(double x, double y) {
-    double x1 = x - a3; // Target length minus wrist length
-
-    double angleRad = Math.acos((Math.pow(a2, 2) - Math.pow(a1, 2) - Math.pow(x1, 2) - Math.pow(y, 2))
-        / (-2 * a1 * Math.sqrt(Math.pow(x1, 2) + Math.pow(y, 2)))) + Math.atan2(y, x1);
-
-    double angleDeg = Math.toDegrees(angleRad);
-    return angleDeg;
-  }
-
-  /**
-   * Method to get the angle to provide to the elbow motor to get to a target
-   * (x,y) position
-   * 
-   * @param x Target length away from the base of the arm. Units in inches
-   * @param y Target height away from the base of the arm. Units in inches
-   * @return Angle to rotate elbow motor
-   */
-  public double targetToAngleElbow(double x, double y) {
-    double x1 = x - a3; // Target length minus wrist length
-
-    double angleRad = Math.acos((Math.pow(x1, 2) + Math.pow(y, 2) - Math.pow(a1, 2) - Math.pow(a2, 2)) / (-2 * a1 * a2))
-        - Math.PI;
-
-    double angleDeg = Math.toDegrees(angleRad);
-    return angleDeg;
-  }
-
-  /**
    * Method to get the angle to provide to the arm motors to get to a target (x,y)
    * position
    * 
@@ -147,7 +111,7 @@ public class Arm extends Subsystem {
   public double[] calculateAngles(double x, double y, boolean flipUp) {
     double x1 = x - a3; // Target length minus wrist length
     double distance = Math.sqrt(Math.pow(x1, 2) + Math.pow(y, 2)); // distance is a function of arm base and target xy
-    if (Math.abs(distance - (a1 + a2)) < 1)
+    if (distance - (a1 + a2) > 0.5 || (a1 - a2) - distance > 0.5 || Math.abs(x) > 30)
       return null;
     // elbow angle is a function of distance
     // if distance> a1+a2 return false
@@ -171,7 +135,8 @@ public class Arm extends Subsystem {
           + Math.acos((Math.pow(a2, 2) - Math.pow(a1, 2) - Math.pow(x1, 2) - Math.pow(y, 2)) / (-2 * a1 * distance));
     double elbowDeg = Math.toDegrees(elbowRad);
     double shoulderDeg = Math.toDegrees(shoulderRad);
-    if (shoulderDeg < 0 || shoulderDeg > 180 || Math.abs(elbowDeg) > 110)
+    if (shoulderDeg < 0 || shoulderDeg > 180 || Math.abs(elbowDeg) > 110 || shoulderDeg != shoulderDeg
+        || elbowDeg != elbowDeg)
       return null;
     double[] anglesArr = { shoulderDeg, elbowDeg };
     return anglesArr;
@@ -200,19 +165,29 @@ public class Arm extends Subsystem {
     }
   }
 
+  /**
+   * Method to get the current x position of the arm
+   * 
+   * @return x position of the arm
+   */
   public double getX() {
     double shoulderAngle = getMotorAngle(getShoulderMotor());
     double elbowAngle = getMotorAngle(getElbowMotor());
     double x = a3 + a1 * Math.cos(Math.toRadians(shoulderAngle))
-        + a2 * Math.cos(Math.toRadians(shoulderAngle) - Math.toRadians(elbowAngle));
+        + a2 * Math.cos(Math.toRadians(shoulderAngle) + Math.toRadians(elbowAngle));
     return x;
   }
 
+  /**
+   * Method to get the current y position of the arm
+   * 
+   * @return y position of the arm
+   */
   public double getY() {
     double shoulderAngle = getMotorAngle(getShoulderMotor());
     double elbowAngle = getMotorAngle(getElbowMotor());
     double y = a1 * Math.sin(Math.toRadians(shoulderAngle))
-        + a2 * Math.sin(Math.toRadians(shoulderAngle) - Math.toRadians(elbowAngle));
+        + a2 * Math.sin(Math.toRadians(shoulderAngle) + Math.toRadians(elbowAngle));
     return y;
   }
 

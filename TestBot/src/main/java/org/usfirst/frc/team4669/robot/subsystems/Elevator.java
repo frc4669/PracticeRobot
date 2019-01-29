@@ -114,6 +114,10 @@ public class Elevator extends Subsystem {
         talon.setInverted(invert);
         talon.setSelectedSensorPosition(0, pidIdx, timeout);
 
+        /* Set relevant frame periods to be at least as fast as periodic rate */
+        talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.timeout);
+        talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.timeout);
+
         // Configuring PID Values
         talon.selectProfileSlot(slotIdx, pidIdx);
         talon.config_kF(slotIdx, Constants.elevatorPID[0], timeout);
@@ -141,6 +145,10 @@ public class Elevator extends Subsystem {
         // //Sets forward soft limit
         // talon.configForwardSoftLimitThreshold(0, RobotMap.timeout);
         talon.configForwardSoftLimitEnable(false, Constants.timeout);
+    }
+
+    public void setMotionMagic(TalonSRX talon, double position) {
+        talon.set(ControlMode.MotionMagic, position);
     }
 
     public double getEncoderPos(TalonSRX talon) {

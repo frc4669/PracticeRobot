@@ -6,19 +6,8 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/DriveTrain.h"
-#include "RobotMap.h"
 
-
-DriveTrain::DriveTrain() : Subsystem("ExampleSubsystem") {
-  // leftFrontTalon(RobotMap::kLeftFrontMotor);
-  // leftBackTalon(RobotMap::kLeftBackMotor);
-  // rightFrontTalon(RobotMap::kRightFrontMotor);
-  // rightBackTalon(RobotMap::kRightBackMotor);
-
-  // leftTalons(leftFrontTalon, leftBackTalon);
-  // rightTalons(rightFrontTalon, rightFrontTalon);
-
-}
+DriveTrain::DriveTrain() : Subsystem("ExampleSubsystem") {}
 
 void DriveTrain::InitDefaultCommand() {
   // Set the default command for a subsystem here.

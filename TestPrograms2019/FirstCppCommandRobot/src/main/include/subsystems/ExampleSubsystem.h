@@ -8,25 +8,13 @@
 #pragma once
 
 #include <frc/commands/Subsystem.h>
-#include "ctre/Phoenix.h"
-#include "RobotMap.h"
 
-class DriveTrain : public frc::Subsystem {
+class ExampleSubsystem : public frc::Subsystem {
+ public:
+  ExampleSubsystem();
+  void InitDefaultCommand() override;
+
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
-
-  WPI_TalonSRX leftFrontTalon(RobotMap::kLeftFrontMotor);
-  WPI_TalonSRX leftBackTalon(RobotMap::kLeftBackMotor);
-  WPI_TalonSRX rightFrontTalon(RobotMap::kRightFrontMotor);
-  WPI_TalonSRX rightBackTalon(RobotMap::kRightBackMotor);
-  
-  // SpeedControllerGroup leftTalons;
-  // SpeedControllerGroup rightTalons;
-
-  // DifferentialDrive differentialDrive;
-
- public:
-  DriveTrain();
-  void InitDefaultCommand() override;
 };

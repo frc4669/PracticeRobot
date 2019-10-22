@@ -5,22 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "subsystems/DriveTrain.h"
+#include "subsystems/ExampleSubsystem.h"
+
 #include "RobotMap.h"
 
+ExampleSubsystem::ExampleSubsystem() : frc::Subsystem("ExampleSubsystem") {}
 
-DriveTrain::DriveTrain() : Subsystem("ExampleSubsystem") {
-  // leftFrontTalon(RobotMap::kLeftFrontMotor);
-  // leftBackTalon(RobotMap::kLeftBackMotor);
-  // rightFrontTalon(RobotMap::kRightFrontMotor);
-  // rightBackTalon(RobotMap::kRightBackMotor);
-
-  // leftTalons(leftFrontTalon, leftBackTalon);
-  // rightTalons(rightFrontTalon, rightFrontTalon);
-
-}
-
-void DriveTrain::InitDefaultCommand() {
+void ExampleSubsystem::InitDefaultCommand() {
   // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());
 }

@@ -32,11 +32,11 @@ public class RobotMap {
 
   public static final int F310 = 2; 
 
-  public static final int DRIVER_CONTROLLER_MOVE_AXIS = 5;
-  public static final int DRIVER_CONTROLLER_ROTATE_AXIS = 4;
+  public static final int DRIVER_CONTROLLER_MOVE_AXIS = 1;
+  public static final int DRIVER_CONTROLLER_ROTATE_AXIS = 0;
 
-  public static final int DRIVER_CONTROLLER_MOVE_AXIS_R = 1;
-  public static final int DRIVER_CONTROLLER_ROTATE_AXIS_R = 0;
+  public static final int DRIVER_CONTROLLER_MOVE_AXIS_R = 5;
+  public static final int DRIVER_CONTROLLER_ROTATE_AXIS_R = 4;
 
   public static final int SHOOTER_SOLENOID_FORWARD = 0;
 	public static final int SHOOTER_SOLENOID_BACKWARD = 1;

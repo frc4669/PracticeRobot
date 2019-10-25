@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/ArcadeDrive.h"
-#include "RobotMap.h"
 #include "Robot.h"
 
 ArcadeDrive::ArcadeDrive() {
@@ -20,10 +19,10 @@ void ArcadeDrive::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void ArcadeDrive::Execute() {
-  double moveSpeed = -Robot.m_oi.driverController.GetRawAxis(controllerLeftXAxis);
-  double rotateSpeed = Robot.m_oi.driverController.GetRawAxis(controllerLeftYAxis);
+  double moveSpeed = -Robot::f310->getLeftY();
+  double rotateSpeed = Robot::f310->getRightX();
 
-  m_drivetrain.arcadeDrive(moveSpeed, rotateSpeed);
+  Robot::m_drivetrain->arcadeDrive(moveSpeed, rotateSpeed);
 
 }
 

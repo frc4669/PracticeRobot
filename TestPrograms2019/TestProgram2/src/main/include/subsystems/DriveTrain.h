@@ -9,24 +9,26 @@
 
 #include <frc/commands/Subsystem.h>
 #include "ctre/Phoenix.h"
-#include "RobotMap.h"
+#include "frc/SpeedControllerGroup.h"
+#include "frc/drive/DifferentialDrive.h"
 
 class DriveTrain : public frc::Subsystem {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
 
-  WPI_TalonSRX leftFrontTalon(RobotMap::kLeftFrontMotor);
-  WPI_TalonSRX leftBackTalon(RobotMap::kLeftBackMotor);
-  WPI_TalonSRX rightFrontTalon(RobotMap::kRightFrontMotor);
-  WPI_TalonSRX rightBackTalon(RobotMap::kRightBackMotor);
+  WPI_TalonSRX * leftFrontTalon;
+  WPI_TalonSRX * leftBackTalon;
+  WPI_TalonSRX * rightFrontTalon;
+  WPI_TalonSRX * rightBackTalon;
   
-  // SpeedControllerGroup leftTalons;
-  // SpeedControllerGroup rightTalons;
+  frc::SpeedControllerGroup * leftTalons;
+  frc::SpeedControllerGroup * rightTalons;
 
-  // DifferentialDrive differentialDrive;
+  frc::DifferentialDrive * differentialDrive;
 
  public:
   DriveTrain();
   void InitDefaultCommand() override;
+  void arcadeDrive(double moveSpeed, double rotateSpeed);
 };

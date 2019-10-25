@@ -16,12 +16,16 @@
 #include "commands/MyAutoCommand.h"
 #include "subsystems/ExampleSubsystem.h"
 #include "subsystems/DriveTrain.h"
+#include "commands/ArcadeDrive.h"
+#include "F310.h"
 
 class Robot : public frc::TimedRobot {
  public:
   static ExampleSubsystem m_subsystem;
   static OI m_oi;
-  static DriveTrain m_drivetrain;
+  static F310 * f310;
+  static DriveTrain * m_drivetrain;
+
 
   void RobotInit() override;
   void RobotPeriodic() override;
@@ -38,6 +42,6 @@ class Robot : public frc::TimedRobot {
   // doesn't have undefined behavior and potentially crash.
   frc::Command* m_autonomousCommand = nullptr;
   ExampleCommand m_defaultAuto;
-  MyAutoCommand m_myAuto;
+  ArcadeDrive * m_myAuto;
   frc::SendableChooser<frc::Command*> m_chooser;
 };

@@ -12,10 +12,15 @@
 
 ExampleSubsystem Robot::m_subsystem;
 OI Robot::m_oi;
+F310 * Robot::f310;
+DriveTrain * Robot::m_drivetrain;
 
 void Robot::RobotInit() {
+  m_drivetrain = new DriveTrain();
+  m_myAuto = new ArcadeDrive();
+  f310 = new F310();
   m_chooser.SetDefaultOption("Default Auto", &m_defaultAuto);
-  m_chooser.AddOption("My Auto", &m_myAuto);
+  m_chooser.AddOption("My Auto", m_myAuto);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 }
 

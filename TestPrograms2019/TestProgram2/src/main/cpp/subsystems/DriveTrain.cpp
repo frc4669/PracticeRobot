@@ -7,23 +7,28 @@
 
 #include "subsystems/DriveTrain.h"
 #include "RobotMap.h"
-
+#include "commands/ArcadeDrive.h"
 
 DriveTrain::DriveTrain() : Subsystem("ExampleSubsystem") {
-  // leftFrontTalon(RobotMap::kLeftFrontMotor);
-  // leftBackTalon(RobotMap::kLeftBackMotor);
-  // rightFrontTalon(RobotMap::kRightFrontMotor);
-  // rightBackTalon(RobotMap::kRightBackMotor);
+  leftFrontTalon = new WPI_TalonSRX(RobotMap::kLeftFrontMotor);
+  leftBackTalon = new WPI_TalonSRX(RobotMap::kLeftBackMotor);
+  rightFrontTalon = new WPI_TalonSRX(RobotMap::kRightFrontMotor);
+  rightBackTalon = new WPI_TalonSRX(RobotMap::kRightBackMotor);
 
-  // leftTalons(leftFrontTalon, leftBackTalon);
-  // rightTalons(rightFrontTalon, rightFrontTalon);
+  leftTalons = new frc::SpeedControllerGroup(*leftFrontTalon);
+  rightTalons = new frc::SpeedControllerGroup(*rightFrontTalon);
 
+  differentialDrive = new frc::DifferentialDrive(*leftTalons, *rightTalons);
 }
 
 void DriveTrain::InitDefaultCommand() {
   // Set the default command for a subsystem here.
-  // SetDefaultCommand(new MySpecialCommand());
+  SetDefaultCommand(new ArcadeDrive());
 }
 
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
+void DriveTrain::arcadeDrive(double moveSpeed, double rotateSpeed)
+{
+  differentialDrive->ArcadeDrive(moveSpeed, rotateSpeed);
+}

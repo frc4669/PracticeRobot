@@ -15,10 +15,11 @@ DriveTrain::DriveTrain() : Subsystem("ExampleSubsystem") {
   rightFrontTalon = new WPI_TalonSRX(RobotMap::kRightFrontMotor);
   rightBackTalon = new WPI_TalonSRX(RobotMap::kRightBackMotor);
 
-  leftTalons = new frc::SpeedControllerGroup(*leftFrontTalon);
-  rightTalons = new frc::SpeedControllerGroup(*rightFrontTalon);
+  leftTalons = new frc::SpeedControllerGroup(*leftFrontTalon, *leftBackTalon);
+  rightTalons = new frc::SpeedControllerGroup(*rightFrontTalon, *rightBackTalon);
 
   differentialDrive = new frc::DifferentialDrive(*leftTalons, *rightTalons);
+  
 }
 
 void DriveTrain::InitDefaultCommand() {

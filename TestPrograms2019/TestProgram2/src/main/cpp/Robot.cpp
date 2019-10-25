@@ -32,7 +32,13 @@ void Robot::RobotInit() {
  * <p> This runs after the mode specific periodic functions, but before
  * LiveWindow and SmartDashboard integrated updating.
  */
-void Robot::RobotPeriodic() {}
+void Robot::RobotPeriodic() {
+  if (f310->getButtonPressed(f310->red_button))
+  {
+    printf("Red button is being pressed...");
+  }
+
+}
 
 /**
  * This function is called once each time the robot enters Disabled mode. You
@@ -90,3 +96,19 @@ void Robot::TestPeriodic() {}
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
 #endif
+
+Robot::~Robot()
+{
+  if (m_drivetrain != nullptr)
+  {
+    delete m_drivetrain;
+  }
+  if (f310 != nullptr)
+  {
+    delete f310;
+  }
+  if (m_myAuto != nullptr)
+  {
+    delete m_myAuto;
+  }
+}

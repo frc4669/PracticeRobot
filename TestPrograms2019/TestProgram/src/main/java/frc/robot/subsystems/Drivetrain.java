@@ -41,23 +41,23 @@ public class Drivetrain extends Subsystem {
   DifferentialDrive differentialDriveStrafe2 = null;
   
   public Drivetrain() {
-    leftFrontTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_FRONT_TALON);
-    leftBackTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_BACK_TALON);
-    rightFrontTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_FRONT_TALON);
-    rightBackTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_BACK_TALON);
+    // leftFrontTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_FRONT_TALON);
+    // leftBackTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_BACK_TALON);
+    // rightFrontTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_FRONT_TALON);
+    // rightBackTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_BACK_TALON);
 
     //for totebot, comment out if not using----------
-    // twoWheelLeft = new WPI_TalonSRX(0); //0
-    // twoWheelRight = new WPI_TalonSRX(3); //3
+     twoWheelLeft = new WPI_TalonSRX(4); //4
+     twoWheelRight = new WPI_TalonSRX(5); //5
 
-    // differentialDrive = new DifferentialDrive(twoWheelLeft, twoWheelRight);
+     differentialDrive = new DifferentialDrive(twoWheelLeft, twoWheelRight);
     //-----------------------------------------------
 
-    //For normal forward and backward driving-------
-    SpeedControllerGroup leftMotors = new SpeedControllerGroup(leftFrontTalon, leftBackTalon);
-    SpeedControllerGroup rightMotors = new SpeedControllerGroup(rightFrontTalon, rightBackTalon);
+    // For normal forward and backward driving-------
+    // SpeedControllerGroup leftMotors = new SpeedControllerGroup(leftFrontTalon, leftBackTalon);
+    // SpeedControllerGroup rightMotors = new SpeedControllerGroup(rightFrontTalon, rightBackTalon);
 
-    differentialDrive = new DifferentialDrive(leftMotors, rightMotors);
+    // differentialDrive = new DifferentialDrive(leftMotors, rightMotors);
     //-----------------------------------------------
     
     //For strafing----------------------------------- 

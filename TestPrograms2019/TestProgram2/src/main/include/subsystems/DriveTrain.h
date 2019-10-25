@@ -11,6 +11,7 @@
 #include "ctre/Phoenix.h"
 #include "frc/SpeedControllerGroup.h"
 #include "frc/drive/DifferentialDrive.h"
+#include "frc/drive/MecanumDrive.h"
 
 class DriveTrain : public frc::Subsystem {
  private:
@@ -26,6 +27,7 @@ class DriveTrain : public frc::Subsystem {
   frc::SpeedControllerGroup * rightTalons;
 
   frc::DifferentialDrive * differentialDrive;
+  frc::MecanumDrive * mecanumDrive;
 
  public:
   DriveTrain();

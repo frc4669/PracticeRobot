@@ -25,10 +25,10 @@
 // constexpr int kRangeFinderModule = 1;
 
 namespace RobotMap {
-    constexpr int kLeftFrontMotor = 4;
+    constexpr int kLeftFrontMotor = 5;
     constexpr int kLeftBackMotor = 12;
-    constexpr int kRightFrontMotor = 5;
+    constexpr int kRightFrontMotor = 11;
     constexpr int kRightBackMotor = 9;
 
-    constexpr int f310 = 0;
+    constexpr int f310 = 2;
 }

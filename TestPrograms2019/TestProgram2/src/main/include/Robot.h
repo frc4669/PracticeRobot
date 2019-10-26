@@ -17,6 +17,7 @@
 #include "subsystems/ExampleSubsystem.h"
 #include "subsystems/DriveTrain.h"
 #include "commands/ArcadeDrive.h"
+#include "commands/StrafeDrive.h"
 #include "F310.h"
 
 class Robot : public frc::TimedRobot {
@@ -44,5 +45,6 @@ class Robot : public frc::TimedRobot {
   frc::Command* m_autonomousCommand = nullptr;
   ExampleCommand m_defaultAuto;
   ArcadeDrive * m_myAuto;
+  StrafeDrive * m_strafeDrive;
   frc::SendableChooser<frc::Command*> m_chooser;
 };

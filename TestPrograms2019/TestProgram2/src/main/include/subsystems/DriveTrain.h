@@ -33,4 +33,5 @@ class DriveTrain : public frc::Subsystem {
   DriveTrain();
   void InitDefaultCommand() override;
   void arcadeDrive(double moveSpeed, double rotateSpeed);
+  void strafeDrive(double ySpeed, double xSpeed, double zRotation);
 };

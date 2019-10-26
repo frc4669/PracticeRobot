@@ -18,6 +18,7 @@ DriveTrain * Robot::m_drivetrain;
 void Robot::RobotInit() {
   m_drivetrain = new DriveTrain();
   m_myAuto = new ArcadeDrive();
+  m_strafeDrive = new StrafeDrive();
   f310 = new F310();
   m_chooser.SetDefaultOption("Default Auto", &m_defaultAuto);
   m_chooser.AddOption("My Auto", m_myAuto);
@@ -33,10 +34,11 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-  if (f310->getButtonPressed(f310->red_button))
-  {
-    printf("Red button is being pressed...");
-  }
+  // printf("Robot periodic is executing ...");
+  // if (f310->getButton(f310->red_button))
+  // {
+  //    printf("Red button is being pressed...");
+  // }
 
 }
 

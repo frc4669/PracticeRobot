@@ -19,7 +19,14 @@ void StrafeDrive::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void StrafeDrive::Execute() {
-
+  double ySpeed = 1;
+  double xSpeed = 0;
+  double zRotation = 0;
+  
+  if (Robot::f310->getButton(Robot::f310->red_button))
+  {
+    Robot::m_drivetrain->strafeDrive(ySpeed, xSpeed, zRotation);
+  }
 }
 
 // Make this return true when this Command no longer needs to run execute()

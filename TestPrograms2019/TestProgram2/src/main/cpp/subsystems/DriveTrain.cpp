@@ -8,6 +8,7 @@
 #include "subsystems/DriveTrain.h"
 #include "RobotMap.h"
 #include "commands/ArcadeDrive.h"
+#include "commands/StrafeDrive.h"
 
 DriveTrain::DriveTrain() : Subsystem("ExampleSubsystem") {
   leftFrontTalon = new WPI_TalonSRX(RobotMap::kLeftFrontMotor);
@@ -19,12 +20,12 @@ DriveTrain::DriveTrain() : Subsystem("ExampleSubsystem") {
   rightTalons = new frc::SpeedControllerGroup(*rightFrontTalon, *rightBackTalon);
 
   differentialDrive = new frc::DifferentialDrive(*leftTalons, *rightTalons);
-  
+  mecanumDrive = new frc::MecanumDrive(*leftFrontTalon, *leftBackTalon, *rightFrontTalon, *rightBackTalon);
 }
 
 void DriveTrain::InitDefaultCommand() {
   // Set the default command for a subsystem here.
-  SetDefaultCommand(new ArcadeDrive());
+  SetDefaultCommand(new StrafeDrive());
 }
 
 // Put methods for controlling this subsystem
@@ -32,4 +33,9 @@ void DriveTrain::InitDefaultCommand() {
 void DriveTrain::arcadeDrive(double moveSpeed, double rotateSpeed)
 {
   differentialDrive->ArcadeDrive(moveSpeed, rotateSpeed);
+}
+
+void DriveTrain::strafeDrive(double ySpeed, double xSpeed, double zRotation)
+{
+  mecanumDrive->DriveCartesian(ySpeed, xSpeed, zRotation);
 }

@@ -17,11 +17,10 @@ DriveTrain * Robot::m_drivetrain;
 
 void Robot::RobotInit() {
   m_drivetrain = new DriveTrain();
-  m_myAuto = new ArcadeDrive();
-  m_strafeDrive = new StrafeDrive();
+  m_mecanumDrive = new MecanumDrive();
   f310 = new F310();
   m_chooser.SetDefaultOption("Default Auto", &m_defaultAuto);
-  m_chooser.AddOption("My Auto", m_myAuto);
+  m_chooser.AddOption("My Auto", m_mecanumDrive);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 }
 
@@ -66,7 +65,7 @@ void Robot::AutonomousInit() {
   // std::string autoSelected = frc::SmartDashboard::GetString(
   //     "Auto Selector", "Default");
   // if (autoSelected == "My Auto") {
-  //   m_autonomousCommand = &m_myAuto;
+  //   m_autonomousCommand = &m_mecanumDrive;
   // } else {
   //   m_autonomousCommand = &m_defaultAuto;
   // }
@@ -109,8 +108,8 @@ Robot::~Robot()
   {
     delete f310;
   }
-  if (m_myAuto != nullptr)
+  if (m_mecanumDrive != nullptr)
   {
-    delete m_myAuto;
+    delete m_mecanumDrive;
   }
 }

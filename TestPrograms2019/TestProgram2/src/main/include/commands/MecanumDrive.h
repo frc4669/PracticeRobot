@@ -9,9 +9,9 @@
 
 #include <frc/commands/Command.h>
 
-class ArcadeDrive : public frc::Command {
+class MecanumDrive : public frc::Command {
  public:
-  ArcadeDrive();
+  MecanumDrive();
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

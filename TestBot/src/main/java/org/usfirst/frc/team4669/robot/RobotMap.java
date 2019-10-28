@@ -30,14 +30,9 @@ public class RobotMap {
 	public static final int driveTopRight = 8;
 	public static final int driveBottomRight = 7;
 
-	public static final int leftIntake = 1;
-	// public static final int rightIntake = 2;
 	public static final int leftMotorElevator = 10;
 	public static final int rightMotorElevator = 22; // 2
-
-	// public static final int rightClimber = 9;
-	// public static final int centerClimber = 13;
-	// public static final int leftClimber = 6;
+	public static final int wheelMotorElevator = 23;
 
 	// USB IDs for gamepad and joysticks
 	public static final int leftJoystick = 0;

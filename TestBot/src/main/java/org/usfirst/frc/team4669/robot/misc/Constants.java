@@ -52,6 +52,12 @@ public class Constants {
 	/** Array for accessing PID constants for arm {kF,kP,kI,kD,Integral zone} */
 	public static final double[] wristPID = { 1.76, 1.2, 0, 0, 50 };
 
+	/**
+	 * Array for accessing PID constants for climber drive {kF,kP,kI,kD,Integral
+	 * zone}
+	 */
+	public static final double[] elevatorWheelPID = { 1, 0, 0, 0, 50 };
+
 	public static final int timeout = 10;
 	public static final int baseTrajPeriodMs = 0;
 
@@ -61,6 +67,9 @@ public class Constants {
 
 	public static final int elevatorDownVel = 1300;
 	public static final int elevatorDownAccel = 2900;
+
+	public static final int elevatorWheelVel = 0;
+	public static final int elevatorWheelAccel = 0;
 
 	public static final int driveVel = 2300;
 	public static final int driveAccel = 4600;

@@ -57,7 +57,7 @@ public class OI {
 
 	public OI() {
 		for (int i = 1; i <= 11; i++) {
-			leftButtons[i] = new JoystickButton(leftStick, i);
+			leftButtons[i - 1] = new JoystickButton(leftStick, i);
 		}
 		leftButtons[5].whenPressed(new ExtendRightElevator(Constants.level3Height));
 		leftButtons[4].whenPressed(new ExtendLeftElevator(Constants.level3Height));

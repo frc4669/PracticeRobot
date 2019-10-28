@@ -12,6 +12,7 @@ import org.usfirst.frc.team4669.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -29,14 +30,15 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class Robot extends TimedRobot {
 	public static NetworkTableInstance networkTableInst;
 	public static NetworkTable visionTable;
-	public static OI oi = new OI();
-	public static F310 f310 = new F310();
+	public static OI oi;
+	public static F310 f310;
 	public static DriverStation driverStation;
 	public static DriveTrain driveTrain;
 	// public static CubeIntake intake;
 	// public static Climber climber;
 	public static Elevator elevator;
 	public static Arm arm;
+	public AnalogUltrasonic ultrasonic;
 
 	Command autonomousCommand;
 	SendableChooser<String> chooser = new SendableChooser<String>();
@@ -54,9 +56,13 @@ public class Robot extends TimedRobot {
 		visionTable = networkTableInst.getTable("DataTable");
 		driveTrain = new DriveTrain();
 		arm = new Arm();
+		ultrasonic = new AnalogUltrasonic(0);
+		oi = new OI();
+		f310 = new F310();
 		driveTrain.zeroEncoders();
 		driveTrain.resetGyro();
 		driveTrain.calibrateGyro();
+
 		// Sends Strings to chooser and not commands in the case of the command
 		// requiring something that only occurs during auto init
 		chooser.addDefault("Do Nothing", "DoNothing");
@@ -199,39 +205,53 @@ public class Robot extends TimedRobot {
 		// SmartDashboard.putNumber("Left Encoder", driveTrain.getLeftEncoder());
 		// SmartDashboard.putNumber("Right Encoder",
 		// Robot.driveTrain.getRightEncoder());
-		SmartDashboard.putNumber("Shoulder Position", arm.getEncoderPosition(arm.getShoulderMotor()));
-		SmartDashboard.putNumber("Shoulder Velocity", arm.getEncoderVelocity(arm.getShoulderMotor()));
-		SmartDashboard.putNumber("Elbow Position", arm.getEncoderPosition(arm.getElbowMotor()));
-		SmartDashboard.putNumber("Elbow Velocity", arm.getEncoderVelocity(arm.getElbowMotor()));
-		SmartDashboard.putNumber("Wrist Position", arm.getEncoderPosition(arm.getWristMotor()));
-		SmartDashboard.putNumber("Wrist Velocity", arm.getEncoderVelocity(arm.getWristMotor()));
-		SmartDashboard.putNumber("Shoulder Angle", arm.getMotorAngle(arm.getShoulderMotor()));
-		SmartDashboard.putNumber("Elbow Angle", arm.getMotorAngle(arm.getElbowMotor()));
-		SmartDashboard.putNumber("Wrist Angle", arm.getMotorAngle(arm.getWristMotor()));
-		double targetShoulder = SmartDashboard.getNumber("Target Shoulder", 0);
-		double targetElbow = SmartDashboard.getNumber("Target Elbow", 0);
-		double targetWrist = SmartDashboard.getNumber("Target Wrist", 0);
-
-		double targetX = SmartDashboard.getNumber("Target X", 0);
-		double targetY = SmartDashboard.getNumber("Target Y", 50);
-
-		// SmartDashboard.putData("Start Arm Magic", new ArmMotionMagic(targetShoulder,
-		// targetElbow, targetWrist));
-		SmartDashboard.putData("Set Arm Angle", new ArmAngleSet(targetShoulder, targetElbow, targetWrist));
-		boolean flipUp = SmartDashboard.getBoolean("Flip Elbow", false);
-
-		SmartDashboard.putData("Arm to Position", new ArmToPosition(targetX, targetY, flipUp));
-		SmartDashboard.putData("Zero Arm Encoders", new ZeroArmEncoders());
-
-		SmartDashboard.putNumber("Acceleration X", Robot.elevator.getAccelX());
-		SmartDashboard.putNumber("Acceleration Y", Robot.elevator.getAccelY());
-
-		double rightElevatorVel = SmartDashboard.getNumber("Target Right Elevator Vel", 0);
-		double leftElevatorVel = SmartDashboard.getNumber("Target Left Elevator Vel", 0);
-
-		SmartDashboard.putData("Set Elevator Speed", new SetElevatorVelocity(leftElevatorVel, rightElevatorVel));
-		SmartDashboard.putNumber("Right Elevator Vel", Robot.elevator.getEncoderVel(Robot.elevator.getRightMotor()));
-		SmartDashboard.putNumber("Left Elevator Vel", Robot.elevator.getEncoderVel(Robot.elevator.getLeftMotor()));
-
+		/**
+		 * SmartDashboard.putNumber("Shoulder Position",
+		 * arm.getEncoderPosition(arm.getShoulderMotor()));
+		 * SmartDashboard.putNumber("Shoulder Velocity",
+		 * arm.getEncoderVelocity(arm.getShoulderMotor()));
+		 * SmartDashboard.putNumber("Elbow Position",
+		 * arm.getEncoderPosition(arm.getElbowMotor())); SmartDashboard.putNumber("Elbow
+		 * Velocity", arm.getEncoderVelocity(arm.getElbowMotor()));
+		 * SmartDashboard.putNumber("Wrist Position",
+		 * arm.getEncoderPosition(arm.getWristMotor())); SmartDashboard.putNumber("Wrist
+		 * Velocity", arm.getEncoderVelocity(arm.getWristMotor()));
+		 * SmartDashboard.putNumber("Shoulder Angle",
+		 * arm.getMotorAngle(arm.getShoulderMotor())); SmartDashboard.putNumber("Elbow
+		 * Angle", arm.getMotorAngle(arm.getElbowMotor()));
+		 * SmartDashboard.putNumber("Wrist Angle",
+		 * arm.getMotorAngle(arm.getWristMotor())); double targetShoulder =
+		 * SmartDashboard.getNumber("Target Shoulder", 0); double targetElbow =
+		 * SmartDashboard.getNumber("Target Elbow", 0); double targetWrist =
+		 * SmartDashboard.getNumber("Target Wrist", 0);
+		 * 
+		 * double targetX = SmartDashboard.getNumber("Target X", 0); double targetY =
+		 * SmartDashboard.getNumber("Target Y", 50);
+		 * 
+		 * // SmartDashboard.putData("Start Arm Magic", new
+		 * ArmMotionMagic(targetShoulder, // targetElbow, targetWrist));
+		 * SmartDashboard.putData("Set Arm Angle", new ArmAngleSet(targetShoulder,
+		 * targetElbow, targetWrist)); boolean flipUp = SmartDashboard.getBoolean("Flip
+		 * Elbow", false);
+		 * 
+		 * SmartDashboard.putData("Arm to Position", new ArmToPosition(targetX, targetY,
+		 * flipUp)); SmartDashboard.putData("Zero Arm Encoders", new ZeroArmEncoders());
+		 * 
+		 * SmartDashboard.putNumber("Acceleration X", Robot.elevator.getAccelX());
+		 * SmartDashboard.putNumber("Acceleration Y", Robot.elevator.getAccelY());
+		 * 
+		 * double rightElevatorVel = SmartDashboard.getNumber("Target Right Elevator
+		 * Vel", 0); double leftElevatorVel = SmartDashboard.getNumber("Target Left
+		 * Elevator Vel", 0);
+		 * 
+		 * SmartDashboard.putData("Set Elevator Speed", new
+		 * SetElevatorVelocity(leftElevatorVel, rightElevatorVel));
+		 * SmartDashboard.putNumber("Right Elevator Vel",
+		 * Robot.elevator.getEncoderVel(Robot.elevator.getRightMotor()));
+		 * SmartDashboard.putNumber("Left Elevator Vel",
+		 * Robot.elevator.getEncoderVel(Robot.elevator.getLeftMotor()));
+		 */
+		SmartDashboard.putNumber("Ultrasonic voltage", ultrasonic.getVoltage());
+		SmartDashboard.putNumber("Ultrasonic Distance", ultrasonic.getDistance());
 	}
 }

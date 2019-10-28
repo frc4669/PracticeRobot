@@ -10,7 +10,6 @@
 #include <frc/commands/Subsystem.h>
 #include "ctre/Phoenix.h"
 #include "frc/SpeedControllerGroup.h"
-#include "frc/drive/DifferentialDrive.h"
 #include "frc/drive/MecanumDrive.h"
 
 class DriveTrain : public frc::Subsystem {
@@ -26,12 +25,11 @@ class DriveTrain : public frc::Subsystem {
   frc::SpeedControllerGroup * leftTalons;
   frc::SpeedControllerGroup * rightTalons;
 
-  frc::DifferentialDrive * differentialDrive;
   frc::MecanumDrive * mecanumDrive;
 
  public:
   DriveTrain();
   void InitDefaultCommand() override;
-  void arcadeDrive(double moveSpeed, double rotateSpeed);
-  void strafeDrive(double ySpeed, double xSpeed, double zRotation);
+  void mecanumWheelDrive(double ySpeed, double xSpeed, double zRotation);
+  ~DriveTrain();
 };

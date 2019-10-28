@@ -5,35 +5,36 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/ArcadeDrive.h"
+#include "commands/MecanumDrive.h"
 #include "Robot.h"
 
-ArcadeDrive::ArcadeDrive() {
+MecanumDrive::MecanumDrive() {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
   Requires(Robot::m_drivetrain);
 }
 
 // Called just before this Command runs the first time
-void ArcadeDrive::Initialize() {}
+void MecanumDrive::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void ArcadeDrive::Execute() {
-  double moveSpeed = -Robot::f310->getLeftY();
-  double rotateSpeed = Robot::f310->getRightX();
+void MecanumDrive::Execute() {
+  double ySpeed = Robot::f310->getLeftX();
+  double xSpeed = -Robot::f310->getLeftY();
+  double zRotation = Robot::f310->getRightX();
 
-  Robot::m_drivetrain->arcadeDrive(moveSpeed, rotateSpeed);
-
+  Robot::m_drivetrain->mecanumWheelDrive(ySpeed, xSpeed, zRotation);
 }
 
+
 // Make this return true when this Command no longer needs to run execute()
-bool ArcadeDrive::IsFinished() { 
+bool MecanumDrive::IsFinished() { 
   return false; 
 }
 
 // Called once after isFinished returns true
-void ArcadeDrive::End() {}
+void MecanumDrive::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ArcadeDrive::Interrupted() {}
+void MecanumDrive::Interrupted() {}

@@ -16,8 +16,7 @@
 #include "commands/MyAutoCommand.h"
 #include "subsystems/ExampleSubsystem.h"
 #include "subsystems/DriveTrain.h"
-#include "commands/ArcadeDrive.h"
-#include "commands/StrafeDrive.h"
+#include "commands/MecanumDrive.h"
 #include "F310.h"
 
 class Robot : public frc::TimedRobot {
@@ -44,7 +43,6 @@ class Robot : public frc::TimedRobot {
   // doesn't have undefined behavior and potentially crash.
   frc::Command* m_autonomousCommand = nullptr;
   ExampleCommand m_defaultAuto;
-  ArcadeDrive * m_myAuto;
-  StrafeDrive * m_strafeDrive;
+  MecanumDrive * m_mecanumDrive;
   frc::SendableChooser<frc::Command*> m_chooser;
 };

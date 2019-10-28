@@ -8,6 +8,7 @@
 #include "subsystems/DriveTrain.h"
 #include "RobotMap.h"
 #include "commands/MecanumDrive.h"
+#include "Robot.h"
 
 DriveTrain::DriveTrain() : Subsystem("ExampleSubsystem") {
   leftFrontTalon = new WPI_TalonSRX(RobotMap::kLeftFrontMotor);
@@ -29,12 +30,44 @@ void DriveTrain::InitDefaultCommand() {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
+double changeSpeedFast(double speed){
+  double changedSpeed = 0.8*pow(speed,2);
+  if(speed > 0) {
+    return changedSpeed;
+  } 
+  else {
+    return -1*changedSpeed;
+  }
+}
+
+double changeSpeedSlow(double speed){
+  double changedSpeed = 0.5*pow(speed,2);
+  if(speed > 0) {
+    return changedSpeed;
+  } 
+  else {
+    return -1*changedSpeed;
+  }
+}
+
+
 void DriveTrain::mecanumWheelDrive(double ySpeed, double xSpeed, double zRotation)
 {
-  mecanumDrive->DriveCartesian(ySpeed, xSpeed, zRotation);
+  if (Robot::f310->getButton(Robot::f310->right_shoulder_button))
+  {
+    mecanumDrive->DriveCartesian(ySpeed, xSpeed, zRotation);
+  }
 }
 
 DriveTrain::~DriveTrain()
 {
   delete leftFrontTalon;
+  delete leftBackTalon;
+  delete rightFrontTalon;
+  delete rightBackTalon;
+
+  delete leftTalons;
+  delete rightTalons;
+
+  delete mecanumDrive;
 }

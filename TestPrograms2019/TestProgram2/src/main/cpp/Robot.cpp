@@ -33,12 +33,7 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-  // printf("Robot periodic is executing ...");
-  // if (f310->getButton(f310->red_button))
-  // {
-  //    printf("Red button is being pressed...");
-  // }
-
+  
 }
 
 /**

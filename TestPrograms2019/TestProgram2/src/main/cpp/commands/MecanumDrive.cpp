@@ -11,7 +11,7 @@
 MecanumDrive::MecanumDrive() {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
-  Requires(Robot::m_drivetrain);
+  Requires(&Robot::m_drivetrain);
 }
 
 // Called just before this Command runs the first time
@@ -19,11 +19,11 @@ void MecanumDrive::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void MecanumDrive::Execute() {
-  double ySpeed = Robot::f310->getLeftX();
-  double xSpeed = -Robot::f310->getLeftY();
-  double zRotation = Robot::f310->getRightX();
+  double ySpeed = Robot::f310.getLeftX();
+  double xSpeed = -Robot::f310.getLeftY();
+  double zRotation = Robot::f310.getRightX();
 
-  Robot::m_drivetrain->mecanumWheelDrive(ySpeed, xSpeed, zRotation);
+  Robot::m_drivetrain.mecanumWheelDrive(ySpeed, xSpeed, zRotation);
 }
 
 

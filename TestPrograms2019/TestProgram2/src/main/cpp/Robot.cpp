@@ -12,15 +12,13 @@
 
 ExampleSubsystem Robot::m_subsystem;
 OI Robot::m_oi;
-F310 * Robot::f310;
-DriveTrain * Robot::m_drivetrain;
+F310 Robot::f310;
+DriveTrain Robot::m_drivetrain;
+MecanumDrive m_mecanumDrive;
 
 void Robot::RobotInit() {
-  m_drivetrain = new DriveTrain();
-  m_mecanumDrive = new MecanumDrive();
-  f310 = new F310();
   m_chooser.SetDefaultOption("Default Auto", &m_defaultAuto);
-  m_chooser.AddOption("My Auto", m_mecanumDrive);
+  m_chooser.AddOption("My Auto", &m_mecanumDrive);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 }
 
@@ -33,7 +31,7 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-  
+
 }
 
 /**
@@ -93,18 +91,3 @@ void Robot::TestPeriodic() {}
 int main() { return frc::StartRobot<Robot>(); }
 #endif
 
-Robot::~Robot()
-{
-  if (m_drivetrain != nullptr)
-  {
-    delete m_drivetrain;
-  }
-  if (f310 != nullptr)
-  {
-    delete f310;
-  }
-  if (m_mecanumDrive != nullptr)
-  {
-    delete m_mecanumDrive;
-  }
-}

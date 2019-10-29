@@ -6,18 +6,6 @@
 
 F310::F310() 
 {
-    f310joystick = new frc::Joystick(RobotMap::f310);
-
-    greenButtonObject = new frc::JoystickButton(f310joystick, F310::green_button);
-    redButtonObject = new frc::JoystickButton(f310joystick, F310::red_button);
-    blueButtonObject = new frc::JoystickButton(f310joystick, F310::blue_button);
-    orangeButtonObject = new frc::JoystickButton(f310joystick, F310::orange_button);
-    leftShoulderButtonObject = new frc::JoystickButton(f310joystick, F310::left_shoulder_button);
-    rightShoulderButtonObject = new frc::JoystickButton(f310joystick, F310::right_shoulder_button);
-    backButtonObject = new frc::JoystickButton(f310joystick, F310::back_button);
-    startButtonObject = new frc::JoystickButton(f310joystick, F310::start_button);
-    leftJoyButtonObject = new frc::JoystickButton(f310joystick, F310::left_joy_button);
-    rightJoyButtonObject = new frc::JoystickButton(f310joystick, F310::right_joy_button);
     // startButtonObject::whenPressed(new StopAll());
     // blueButtonObject::whenPressed(new ToggleCompressor());
 
@@ -63,23 +51,23 @@ double F310::getRightY() {
 }
 
 bool F310::getButton(int buttonPort) {
-    return f310joystick->GetRawButton(buttonPort);
+    return f310joystick.GetRawButton(buttonPort);
 }
 
 bool F310::getButtonPressed(int buttonPort) {
-    return f310joystick->GetRawButtonPressed(buttonPort);
+    return f310joystick.GetRawButtonPressed(buttonPort);
 }
 
 bool F310::getButtonReleased(int buttonPort) {
-    return f310joystick->GetRawButtonReleased(buttonPort);
+    return f310joystick.GetRawButtonReleased(buttonPort);
 }
 
 int F310::getDPadPOV() {
-    return f310joystick->GetPOV();
+    return f310joystick.GetPOV();
 }
 
 double F310::deadzone(int port) {
-    double joystickValue = f310joystick->GetRawAxis(port);
+    double joystickValue = f310joystick.GetRawAxis(port);
     double joystickOffset = 0.075;
     double absJoystickValue = abs(joystickValue);
     if (absJoystickValue > joystickOffset) {

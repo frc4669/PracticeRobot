@@ -11,15 +11,7 @@
 #include "Robot.h"
 
 DriveTrain::DriveTrain() : Subsystem("ExampleSubsystem") {
-  leftFrontTalon = new WPI_TalonSRX(RobotMap::kLeftFrontMotor);
-  leftBackTalon = new WPI_TalonSRX(RobotMap::kLeftBackMotor);
-  rightFrontTalon = new WPI_TalonSRX(RobotMap::kRightFrontMotor);
-  rightBackTalon = new WPI_TalonSRX(RobotMap::kRightBackMotor);
-
-  leftTalons = new frc::SpeedControllerGroup(*leftFrontTalon, *leftBackTalon);
-  rightTalons = new frc::SpeedControllerGroup(*rightFrontTalon, *rightBackTalon);
-
-  mecanumDrive = new frc::MecanumDrive(*leftFrontTalon, *leftBackTalon, *rightFrontTalon, *rightBackTalon);
+  
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -53,21 +45,12 @@ double changeSpeedSlow(double speed){
 
 void DriveTrain::mecanumWheelDrive(double ySpeed, double xSpeed, double zRotation)
 {
-  if (Robot::f310->getButton(Robot::f310->right_shoulder_button))
+  if (Robot::f310.getButton(Robot::f310.right_shoulder_button))
   {
-    mecanumDrive->DriveCartesian(ySpeed, xSpeed, zRotation);
+    mecanumDrive.DriveCartesian(changeSpeedSlow(ySpeed), changeSpeedSlow(xSpeed), changeSpeedSlow(zRotation));
   }
-}
-
-DriveTrain::~DriveTrain()
-{
-  delete leftFrontTalon;
-  delete leftBackTalon;
-  delete rightFrontTalon;
-  delete rightBackTalon;
-
-  delete leftTalons;
-  delete rightTalons;
-
-  delete mecanumDrive;
+  else 
+  {
+    mecanumDrive.DriveCartesian(changeSpeedFast(ySpeed), changeSpeedFast(xSpeed), changeSpeedFast(zRotation));
+  }
 }

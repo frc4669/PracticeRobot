@@ -30,5 +30,5 @@ namespace RobotMap {
     constexpr int kRightFrontMotor = 11;
     constexpr int kRightBackMotor = 9;
 
-    constexpr int f310 = 2;
+    constexpr int f310 = 0;
 }

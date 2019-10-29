@@ -23,8 +23,8 @@ class Robot : public frc::TimedRobot {
  public:
   static ExampleSubsystem m_subsystem;
   static OI m_oi;
-  static F310 * f310;
-  static DriveTrain * m_drivetrain;
+  static F310 f310;
+  static DriveTrain m_drivetrain;
 
 
   void RobotInit() override;
@@ -36,13 +36,12 @@ class Robot : public frc::TimedRobot {
   void TeleopInit() override;
   void TeleopPeriodic() override;
   void TestPeriodic() override;
-  ~Robot();
 
  private:
   // Have it null by default so that if testing teleop it
   // doesn't have undefined behavior and potentially crash.
   frc::Command* m_autonomousCommand = nullptr;
   ExampleCommand m_defaultAuto;
-  MecanumDrive * m_mecanumDrive;
+  MecanumDrive m_mecanumDrive;
   frc::SendableChooser<frc::Command*> m_chooser;
 };

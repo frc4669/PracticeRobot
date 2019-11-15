@@ -26,9 +26,7 @@ public class RobotMap {
 
 
   public static final int DRIVETRAIN_LEFT_FRONT_TALON = 5;
-  public static final int DRIVETRAIN_LEFT_BACK_TALON = 12;
-  public static final int DRIVETRAIN_RIGHT_FRONT_TALON = 11;
-  public static final int DRIVETRAIN_RIGHT_BACK_TALON = 9;
+  public static final int DRIVETRAIN_RIGHT_FRONT_TALON = 8;
 
   public static final int F310 = 2; 
 
@@ -39,7 +37,10 @@ public class RobotMap {
   public static final int DRIVER_CONTROLLER_ROTATE_AXIS_R = 4;
 
   public static final int SHOOTER_SOLENOID_FORWARD = 0;
-	public static final int SHOOTER_SOLENOID_BACKWARD = 1;
+  public static final int SHOOTER_SOLENOID_BACKWARD = 1;
+  
+  public static final int JAW_MOTOR = 5;
+  public static final int INTAKE_MOTOR = 8;
 
 }
 

@@ -7,14 +7,15 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import frc.robot.subsystems.Drivetrain;
 
+import frc.robot.subsystems.BallIntakeSystem;;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,7 +29,7 @@ public class Robot extends TimedRobot {
   public static Drivetrain m_drivetrain = null;
   public static OI m_oi;
   public static F310 f310;
-  BuiltInAccelerometer accel;
+  public static BallIntakeSystem ballIntake;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -43,6 +44,7 @@ public class Robot extends TimedRobot {
     //--m_shooter = new Shooter();
     m_oi = new OI();
     f310 = new F310();
+    ballIntake = new BallIntakeSystem();
     //m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
@@ -59,25 +61,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    accel = new BuiltInAccelerometer();
 
-    double xAccel = accel.getX();
-    double yAccel = accel.getY();
-    double zAccel = accel.getZ();
-
-    double c1 = Math.sqrt(Math.pow(xAccel,2)+Math.pow(yAccel,2));
-    double c2 = Math.sqrt(Math.pow(xAccel,2)+Math.pow(zAccel,2));
-
-    double resultant = Math.sqrt(Math.pow(c1,2)+Math.pow(c2,2));
-
-    if(resultant>=1.02)
-    // Print only if a>1.01: helps reduce random noise from accelerometer measuring
-    // gravity as >g
-    {
-      System.out.println(resultant);
-    }
-  
-    accel.close();
   }
 
   /**

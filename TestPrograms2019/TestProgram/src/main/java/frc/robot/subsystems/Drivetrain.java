@@ -20,6 +20,7 @@ import frc.robot.RobotMap;
 import frc.robot.F310;
 import frc.robot.Robot;
 import frc.robot.commands.DriveArcade;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 
 /**
 * Add your docs here.
@@ -39,6 +40,9 @@ public class Drivetrain extends Subsystem {
   DifferentialDrive differentialDrive = null;
   DifferentialDrive differentialDriveStrafe = null;
   DifferentialDrive differentialDriveStrafe2 = null;
+
+  BuiltInAccelerometer accel;
+
   
   public Drivetrain() {
     // leftFrontTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_FRONT_TALON);
@@ -47,8 +51,8 @@ public class Drivetrain extends Subsystem {
     // rightBackTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_BACK_TALON);
 
     //for totebot, comment out if not using----------
-     twoWheelLeft = new WPI_TalonSRX(4); //4
-     twoWheelRight = new WPI_TalonSRX(5); //5
+     twoWheelLeft = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_FRONT_TALON); //5
+     twoWheelRight = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_FRONT_TALON); //8
 
      differentialDrive = new DifferentialDrive(twoWheelLeft, twoWheelRight);
     //-----------------------------------------------
@@ -89,15 +93,31 @@ public class Drivetrain extends Subsystem {
 
   public void arcadeDrive(double moveSpeed, double rotateSpeed) {
     //boolean rightShoulderReleased = Robot.f310.getButtonReleased(F310.rightShoulderButton);
+    accel = new BuiltInAccelerometer();
 
-    if (Robot.f310.getButton(F310.rightShoulderButton)) 
+    double xAccel = accel.getX();
+    double yAccel = accel.getY();
+    double zAccel = accel.getZ();
+  
+    double c1 = Math.sqrt(Math.pow(xAccel,2)+Math.pow(yAccel,2));
+    double c2 = Math.sqrt(Math.pow(xAccel,2)+Math.pow(zAccel,2));
+  
+    double resultant = Math.sqrt(Math.pow(c1,2)+Math.pow(c2,2));
+
+    if(resultant<=3)
+    // Enable driving only while g-forces are less than 3G
     {
-      differentialDrive.arcadeDrive(changeSpeedSlow(moveSpeed), changeSpeedSlow(rotateSpeed));  
+      if (Robot.f310.getButton(F310.rightShoulderButton)) 
+      {
+        differentialDrive.arcadeDrive(changeSpeedSlow(moveSpeed), changeSpeedSlow(rotateSpeed));  
+      }
+      else 
+      {
+        differentialDrive.arcadeDrive(changeSpeedFast(moveSpeed), changeSpeedFast(rotateSpeed)); 
+      }
     }
-    else 
-    {
-      differentialDrive.arcadeDrive(changeSpeedFast(moveSpeed), changeSpeedFast(rotateSpeed)); 
-    }
+  
+    accel.close();
     
   }
 

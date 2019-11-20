@@ -50,13 +50,10 @@ public class Drivetrain extends Subsystem {
     // rightBackTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_BACK_TALON);
 
     //for totebot, comment out if not using----------
-<<<<<<< HEAD
+
      twoWheelLeft = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_TALON); //4
      twoWheelRight = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_TALON);
-=======
-     twoWheelLeft = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_FRONT_TALON); //5
-     twoWheelRight = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_FRONT_TALON); //8
->>>>>>> e4e24bdf52d73b0998e46165fe561eea430f20bb
+
 
      differentialDrive = new DifferentialDrive(twoWheelLeft, twoWheelRight);
     //-----------------------------------------------

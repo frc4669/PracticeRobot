@@ -42,5 +42,9 @@ public class RobotMap {
   public static final int JAW_MOTOR = 5;
   public static final int INTAKE_MOTOR = 8;
 
+  /** Pneumatic Channels */
+	public static final int solenoidForward = 0;
+  public static final int solenoidReverse = 1;
+
 }
 

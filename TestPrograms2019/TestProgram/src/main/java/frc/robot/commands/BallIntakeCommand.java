@@ -35,7 +35,7 @@ public class BallIntakeCommand extends Command {
         }
         
         if(Robot.f310.getButton(F310.leftShoulderButton)){
-    		//Attempt at intake
+    		//Attempt at open/close jaw
     		Robot.ballIntake.openJaw();
     	} 
 		else if(Robot.f310.getButton(F310.rightShoulderButton)){
@@ -44,6 +44,7 @@ public class BallIntakeCommand extends Command {
 		else {
     		Robot.ballIntake.stopJaw();
         }
+
     }
 
     // Make this return true when this Command no longer needs to run execute()

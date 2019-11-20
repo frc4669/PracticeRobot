@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-//import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.RobotMap;
 import frc.robot.F310;
@@ -47,8 +46,8 @@ public class Drivetrain extends Subsystem {
     // rightBackTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_BACK_TALON);
 
     //for totebot, comment out if not using----------
-     twoWheelLeft = new WPI_TalonSRX(4); //4
-     twoWheelRight = new WPI_TalonSRX(5); //5
+     twoWheelLeft = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_TALON); //4
+     twoWheelRight = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_TALON);
 
      differentialDrive = new DifferentialDrive(twoWheelLeft, twoWheelRight);
     //-----------------------------------------------

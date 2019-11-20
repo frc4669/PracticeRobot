@@ -25,8 +25,14 @@ public class RobotMap {
   // public static int rangefinderModule = 1;
 
 
+<<<<<<< HEAD
   public static final int DRIVETRAIN_LEFT_TALON = 8;
   public static final int DRIVETRAIN_RIGHT_TALON = 5;
+=======
+  public static final int DRIVETRAIN_LEFT_FRONT_TALON = 5;
+  public static final int DRIVETRAIN_RIGHT_FRONT_TALON = 8;
+
+>>>>>>> e4e24bdf52d73b0998e46165fe561eea430f20bb
   public static final int F310 = 2; 
 
   public static final int DRIVER_CONTROLLER_MOVE_AXIS = 1;
@@ -36,7 +42,14 @@ public class RobotMap {
   public static final int DRIVER_CONTROLLER_ROTATE_AXIS_R = 4;
 
   public static final int SHOOTER_SOLENOID_FORWARD = 0;
-	public static final int SHOOTER_SOLENOID_BACKWARD = 1;
+  public static final int SHOOTER_SOLENOID_BACKWARD = 1;
+  
+  public static final int JAW_MOTOR = 5;
+  public static final int INTAKE_MOTOR = 8;
+
+  /** Pneumatic Channels */
+	public static final int solenoidForward = 0;
+  public static final int solenoidReverse = 1;
 
 }
 

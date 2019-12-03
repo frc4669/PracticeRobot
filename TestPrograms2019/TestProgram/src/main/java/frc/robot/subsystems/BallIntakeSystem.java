@@ -24,7 +24,7 @@ public class BallIntakeSystem extends Subsystem {
     private WPI_TalonSRX intakeMotor;
     private WPI_TalonSRX jawMotor;
     
-    private DoubleSolenoid kicker = new DoubleSolenoid(RobotMap.solenoidForward, RobotMap.solenoidReverse);
+    private DoubleSolenoid kicker = new DoubleSolenoid(RobotMap.SHOOTER_SOLENOID_FORWARD, RobotMap.SHOOTER_SOLENOID_BACKWARD);
     private Compressor compressor = new Compressor();
 
     // Put methods for controlling this subsystem

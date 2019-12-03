@@ -21,7 +21,6 @@ public class Elevator extends Subsystem {
 	
 	private WPI_TalonSRX elevatorMotor;
 
-
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -51,12 +50,11 @@ public class Elevator extends Subsystem {
     }
 
     public void manualElevatorUp(){
-        elevatorMotor.set(ControlMode.PercentOutput,0.15);
+        elevatorMotor.set(ControlMode.PercentOutput,0.25);
     }
 
     public void manualElevatorDown(){
-        elevatorMotor.set(ControlMode.PercentOutput,-0.1);
-
+        elevatorMotor.set(ControlMode.PercentOutput,-0.2);
     }
     
     public void stop()  {

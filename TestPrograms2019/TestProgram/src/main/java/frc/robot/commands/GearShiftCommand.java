@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.GearShift;;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ElevatorCommand extends Command {
+public class GearShiftCommand extends Command {
 
-    public ElevatorCommand() {
+    public GearShiftCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	 requires(frc.robot.Robot.elevator);
+    	 requires(frc.robot.Robot.gearShifter);
     }
 
     // Called just before this Command runs the first time
@@ -26,12 +26,11 @@ public class ElevatorCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(Robot.f310.getDPadPOV()==RobotMap.F310_DPAD_DOWN){
-            Robot.elevator.manualElevatorDown();
-        } else if(Robot.f310.getDPadPOV()==RobotMap.F310_DPAD_UP){
-            Robot.elevator.manualElevatorUp();
-        } else {
-            Robot.elevator.stop();
+        if(Robot.f310.getButton(Robot.f310.orangeButton)){
+            if(Robot.gearShifter.getHighGear()){
+                Robot.gearShifter.lowGear();
+            }
+            Robot.gearShifter.highGear();
         }
     }
 

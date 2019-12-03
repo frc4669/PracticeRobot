@@ -16,7 +16,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.BallIntakeSystem;;
+import frc.robot.subsystems.BallIntakeSystem;
+import frc.robot.subsystems.GearShift;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,6 +31,7 @@ public class Robot extends TimedRobot {
   public static Drivetrain m_drivetrain = null;
   public static OI m_oi;
   public static F310 f310;
+  public static GearShift gearShifter;
   public static BallIntakeSystem ballIntake;
   public static Elevator elevator;
   public static DigitalInput fwdLimitSwitch, revLimitSwitch;
@@ -47,8 +49,8 @@ public class Robot extends TimedRobot {
     //--m_shooter = new Shooter();
     m_oi = new OI();
     ballIntake = new BallIntakeSystem();
+    gearShifter = new GearShift();
     f310 = new F310();
-
     elevator = new Elevator();
     fwdLimitSwitch = new DigitalInput(1);
     revLimitSwitch = new DigitalInput(2);

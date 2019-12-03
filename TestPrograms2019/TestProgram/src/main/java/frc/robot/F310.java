@@ -21,8 +21,16 @@ public class F310 {
 	public Button leftJoyButtonObject;
 	public Button rightJoyButtonObject;
 
-	public static final int greenButton = 1, redButton = 2, blueButton = 3, orangeButton = 4, leftShoulderButton = 5,
-			rightShoulderButton = 6, backButton = 7, startButton = 8, leftJoyButton = 9, rightJoyButton = 10;
+	public static final int greenButton = 1;
+	public static final int redButton = 2;
+	public static final int blueButton = 3;
+	public static final int orangeButton = 4;
+	public static final int leftShoulderButton = 5;
+	public static final int rightShoulderButton = 6;
+	public static final int backButton = 7;
+	public static final int startButton = 8;
+	public static final int leftJoyButton = 9;
+	public static final int rightJoyButton = 10;
 
 	public F310() {
 		f310 = new Joystick(RobotMap.F310);

@@ -29,6 +29,8 @@ public class RobotMap {
   public static final int DRIVETRAIN_RIGHT_TALON = 5;
 
   public static final int F310 = 2; 
+  public static final int F310_DPAD_UP = 0;
+  public static final int F310_DPAD_DOWN = 180;
 
   public static final int DRIVER_CONTROLLER_MOVE_AXIS = 1;
   public static final int DRIVER_CONTROLLER_ROTATE_AXIS = 0;
@@ -42,9 +44,15 @@ public class RobotMap {
   public static final int JAW_MOTOR = 2;
   public static final int INTAKE_MOTOR = 6;
 
-  /** Pneumatic Channels */
-	public static final int solenoidForward = 0;
-  public static final int solenoidReverse = 1;
+  public static final int ELEVATOR_MOTOR = 9;
+
+  // Sensors
+  public static final int elevatorVel = 1100;
+	public static final int elevatorAccel = 1300;
+	
+	public static final int elevatorDownVel = 1300;
+  public static final int elevatorDownAccel = 2900;
+
 
 }
 

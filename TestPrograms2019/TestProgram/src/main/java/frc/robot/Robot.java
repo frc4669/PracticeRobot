@@ -46,8 +46,9 @@ public class Robot extends TimedRobot {
     m_drivetrain = new Drivetrain();
     //--m_shooter = new Shooter();
     m_oi = new OI();
-    f310 = new F310();
     ballIntake = new BallIntakeSystem();
+    f310 = new F310();
+
     elevator = new Elevator();
     fwdLimitSwitch = new DigitalInput(1);
     revLimitSwitch = new DigitalInput(2);

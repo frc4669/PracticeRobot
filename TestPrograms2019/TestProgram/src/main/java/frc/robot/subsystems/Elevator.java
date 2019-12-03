@@ -46,8 +46,17 @@ public class Elevator extends Subsystem {
 
     public void elevatorDown(){
         if(!getReverseLimit()){
-            elevatorMotor.set(ControlMode.PercentOutput,0.3);
+            elevatorMotor.set(ControlMode.PercentOutput,-0.3);
         }
+    }
+
+    public void manualElevatorUp(){
+        elevatorMotor.set(ControlMode.PercentOutput,0.15);
+    }
+
+    public void manualElevatorDown(){
+        elevatorMotor.set(ControlMode.PercentOutput,-0.1);
+
     }
     
     public void stop()  {

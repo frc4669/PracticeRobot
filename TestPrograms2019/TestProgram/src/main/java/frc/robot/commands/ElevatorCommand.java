@@ -27,9 +27,9 @@ public class ElevatorCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         if(Robot.f310.getDPadPOV()==RobotMap.F310_DPAD_DOWN){
-            Robot.elevator.elevatorDown();
+            Robot.elevator.manualElevatorDown();
         } else if (Robot.f310.getDPadPOV()==RobotMap.F310_DPAD_UP){
-            Robot.elevator.elevatorUp();
+            Robot.elevator.manualElevatorUp();
         } else {
             Robot.elevator.stop();
         }

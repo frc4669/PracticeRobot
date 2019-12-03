@@ -30,7 +30,9 @@ public class RobotMap {
 
   public static final int F310 = 2; 
   public static final int F310_DPAD_UP = 0;
+  public static final int F310_DPAD_LEFT = 90;
   public static final int F310_DPAD_DOWN = 180;
+  public static final int F310_DPAD_RIGHT = 270;
 
   public static final int DRIVER_CONTROLLER_MOVE_AXIS = 1;
   public static final int DRIVER_CONTROLLER_ROTATE_AXIS = 0;

@@ -1,5 +1,6 @@
 package frc.robot;
 
+import frc.robot.commands.ToggleCompressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -45,6 +46,8 @@ public class F310 {
 		startButtonObject = new JoystickButton(f310, F310.startButton);
 		leftJoyButtonObject = new JoystickButton(f310, F310.leftJoyButton);
 		rightJoyButtonObject = new JoystickButton(f310, F310.rightJoyButton);
+
+		blueButtonObject.whenPressed(new ToggleCompressor());
 
 	}
 

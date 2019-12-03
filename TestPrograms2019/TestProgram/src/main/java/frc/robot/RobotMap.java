@@ -40,7 +40,7 @@ public class RobotMap {
   public static final int SHOOTER_SOLENOID_BACKWARD = 1;
   
   public static final int JAW_MOTOR = 2;
-  public static final int INTAKE_MOTOR = 6;
+  public static final int INTAKE_MOTOR = 13;
 
   /** Pneumatic Channels */
 	public static final int solenoidForward = 0;

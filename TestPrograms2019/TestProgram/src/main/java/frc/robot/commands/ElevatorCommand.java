@@ -2,9 +2,6 @@ package frc.robot.commands;
 
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.subsystems.Elevator;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -26,11 +23,16 @@ public class ElevatorCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        
+        if(Robot.f310.getDPadPOV()==RobotMap.F310_DPAD_UP){
+            Robot.elevator.elevatorUp();
+        }
+
         if(Robot.f310.getDPadPOV()==RobotMap.F310_DPAD_DOWN){
-            Robot.elevator.manualElevatorDown();
-        } else if(Robot.f310.getDPadPOV()==RobotMap.F310_DPAD_UP){
-            Robot.elevator.manualElevatorUp();
-        } else {
+            Robot.elevator.elevatorDown();
+        }
+
+        if(Robot.f310.getDPadPOV()==-1){
             Robot.elevator.stop();
         }
     }

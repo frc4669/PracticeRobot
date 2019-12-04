@@ -1,18 +1,12 @@
 package frc.robot.subsystems;
 
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ElevatorCommand;
 
-import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
@@ -39,22 +33,22 @@ public class Elevator extends Subsystem {
     
     public void elevatorUp(){
         if(!getForwardLimit()){
-            elevatorMotor.set(ControlMode.PercentOutput,0.4);
+            elevatorMotor.set(ControlMode.PercentOutput,0.5);
         }
     }
 
     public void elevatorDown(){
         if(!getReverseLimit()){
-            elevatorMotor.set(ControlMode.PercentOutput,-0.3);
+            elevatorMotor.set(ControlMode.PercentOutput,-0.4);
         }
     }
 
     public void manualElevatorUp(){
-        elevatorMotor.set(ControlMode.PercentOutput,0.25);
+        elevatorMotor.set(ControlMode.PercentOutput,0.5);
     }
 
     public void manualElevatorDown(){
-        elevatorMotor.set(ControlMode.PercentOutput,-0.2);
+        elevatorMotor.set(ControlMode.PercentOutput,-0.45);
     }
     
     public void stop()  {

@@ -21,9 +21,8 @@ public class GearShift extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private DoubleSolenoid doubleAction = new DoubleSolenoid(RobotMap.SOLENOID_FORWARD, RobotMap.SOLENOID_BACKWARD);
+  private DoubleSolenoid doubleAction = new DoubleSolenoid(RobotMap.SOLENOID_FORWARD, RobotMap.SOLENOID_REVERSE);
   private Compressor compressor = new Compressor();
-
   public void highGear() {
     doubleAction.set(DoubleSolenoid.Value.kForward);
   }

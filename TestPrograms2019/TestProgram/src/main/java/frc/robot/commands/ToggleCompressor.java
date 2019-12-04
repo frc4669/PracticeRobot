@@ -15,16 +15,16 @@ public class ToggleCompressor extends InstantCommand {
     super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.ballIntake);
+    requires(Robot.gearShifter);
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    if(Robot.ballIntake.isCompressorClosedLoopOn()){
-      Robot.ballIntake.stopCompressor();
+    if(Robot.gearShifter.isCompressorClosedLoopOn()){
+      Robot.gearShifter.stopCompressor();
     } else {
-      Robot.ballIntake.startCompressor();
+      Robot.gearShifter.startCompressor();
     }
   }
 

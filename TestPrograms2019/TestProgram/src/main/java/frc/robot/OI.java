@@ -10,8 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.GearShift.HighGear;
 // import frc.robot.commands.ShooterDown;
 // import frc.robot.commands.ShooterUp;
+import frc.robot.commands.GearShift.LowGear;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -60,10 +62,10 @@ public class OI {
   public Button D11 = new JoystickButton(driverController, 11); // button #11
   public Button D12 = new JoystickButton(driverController, 12); // button #12
 
-  // public OI() {
-  //   D1.whenPressed(new ShooterUp());
-  //   D2.whenPressed(new ShooterDown());
-  // }
+  public OI() {
+    D7.whenPressed(new LowGear());
+    D8.whenPressed(new HighGear());
+  }
 
   public double getJoyX(){
     double axis = driverController.getX();

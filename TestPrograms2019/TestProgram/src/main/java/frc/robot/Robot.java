@@ -29,12 +29,12 @@ import frc.robot.subsystems.GearShift;
 public class Robot extends TimedRobot {
   //-public static Shooter m_shooter = null;
   public static Drivetrain m_drivetrain = null;
-  public static OI m_oi;
   public static GearShift gearShifter;
   public static BallIntakeSystem ballIntake;
   public static Elevator elevator;
   public static DigitalInput fwdLimitSwitch, revLimitSwitch;
   public static F310 f310;
+  public static OI m_oi;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();

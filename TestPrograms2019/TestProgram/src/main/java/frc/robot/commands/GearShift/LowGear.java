@@ -10,7 +10,6 @@
 package frc.robot.commands.GearShift;
 
 import frc.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
 /**
@@ -22,7 +21,7 @@ public class LowGear extends InstantCommand {
         super();
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(Robot.gearShifter);
+        
     }
 
     // Called once when the command executes

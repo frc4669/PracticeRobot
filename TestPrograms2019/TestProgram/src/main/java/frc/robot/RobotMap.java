@@ -24,9 +24,10 @@ public class RobotMap {
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
 
-
-  public static final int DRIVETRAIN_LEFT_TALON = 8;
-  public static final int DRIVETRAIN_RIGHT_TALON = 5;
+  public static final int DRIVETRAIN_LEFT_TALON1 = 9;
+  public static final int DRIVETRAIN_LEFT_TALON2 = 11;
+  public static final int DRIVETRAIN_RIGHT_TALON1 = 3;
+  public static final int DRIVETRAIN_RIGHT_TALON2 = 5;
 
   public static final int F310 = 2; 
   public static final int F310_DPAD_UP = 0;
@@ -46,7 +47,7 @@ public class RobotMap {
   public static final int JAW_MOTOR = 2;
   public static final int INTAKE_MOTOR = 6;
 
-  public static final int ELEVATOR_MOTOR = 9;
+  public static final int ELEVATOR_MOTOR = 13;
 
   // Sensors
   public static final int elevatorVel = 1100;

@@ -11,7 +11,7 @@ import frc.robot.RobotMap;
 // import org.usfirst.frc.team4669.robot.commands.OpenGrabber;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -21,21 +21,18 @@ public class GearShift extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private DoubleSolenoid doubleAction = new DoubleSolenoid(RobotMap.SOLENOID_FORWARD, RobotMap.SOLENOID_REVERSE);
+  private Solenoid shifter1 = new Solenoid(RobotMap.SOLENOID_FORWARD);
+  private Solenoid shifter2 = new Solenoid(RobotMap.SOLENOID_REVERSE);
   private Compressor compressor = new Compressor();
+
   public void highGear() {
-    doubleAction.set(DoubleSolenoid.Value.kForward);
+    shifter1.set(true);
+    shifter2.set(true);
   }
 
   public void lowGear() {
-    doubleAction.set(DoubleSolenoid.Value.kReverse);
-  }
-
-  public boolean getHighGear() {
-    if (doubleAction.get() == DoubleSolenoid.Value.kForward) {
-      return true;
-    }
-    return false;
+    shifter1.set(false);
+    shifter2.set(false);
   }
 
   public void startCompressor(){

@@ -17,7 +17,9 @@ import frc.robot.RobotMap;
 import frc.robot.F310;
 import frc.robot.Robot;
 import frc.robot.commands.DriveArcade;
+
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
 /**
 * Add your docs here.
@@ -42,27 +44,24 @@ public class Drivetrain extends Subsystem {
 
   
   public Drivetrain() {
-    // leftFrontTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_FRONT_TALON);
-    // leftBackTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_BACK_TALON);
-    // rightFrontTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_FRONT_TALON);
-    // rightBackTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_BACK_TALON);
+    leftFrontTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_TALON1);
+    leftBackTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_TALON2);
+    rightFrontTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_TALON1);
+    rightBackTalon = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_TALON2);
 
     //for totebot, comment out if not using----------
 
-     twoWheelLeft = new WPI_TalonSRX(RobotMap.DRIVETRAIN_LEFT_TALON); //4
-     twoWheelRight = new WPI_TalonSRX(RobotMap.DRIVETRAIN_RIGHT_TALON);
-
-
-     differentialDrive = new DifferentialDrive(twoWheelLeft, twoWheelRight);
     //-----------------------------------------------
 
     // For normal forward and backward driving-------
-    // SpeedControllerGroup leftMotors = new SpeedControllerGroup(leftFrontTalon, leftBackTalon);
-    // SpeedControllerGroup rightMotors = new SpeedControllerGroup(rightFrontTalon, rightBackTalon);
-
-    // differentialDrive = new DifferentialDrive(leftMotors, rightMotors);
-    //-----------------------------------------------
+    SpeedControllerGroup m_left = new SpeedControllerGroup(leftFrontTalon,leftBackTalon);
+    SpeedControllerGroup m_right = new SpeedControllerGroup(rightFrontTalon,rightBackTalon);
     
+    differentialDrive = new DifferentialDrive(m_left, m_right);
+    //-----------------------------------------------
+
+    
+
     //For strafing----------------------------------- 
     //differentialDriveStrafe = new DifferentialDrive(leftFrontTalon, rightBackTalon);
     //differentialDriveStrafe2 = new DifferentialDrive(rightFrontTalon, leftBackTalon);
@@ -90,41 +89,42 @@ public class Drivetrain extends Subsystem {
     }
   }
 
-  public void arcadeDrive(double moveSpeed, double rotateSpeed) {
-    //boolean rightShoulderReleased = Robot.f310.getButtonReleased(F310.rightShoulderButton);
-    accel = new BuiltInAccelerometer();
 
-    double xAccel = accel.getX();
-    double yAccel = accel.getY();
-    double zAccel = accel.getZ();
-  
-    double c1 = Math.sqrt(Math.pow(xAccel,2)+Math.pow(yAccel,2));
-    double c2 = Math.sqrt(Math.pow(xAccel,2)+Math.pow(zAccel,2));
-  
-    double resultant = Math.sqrt(Math.pow(c1,2)+Math.pow(c2,2));
+   public void arcadeDrive(double moveSpeed, double rotateSpeed) {
+     //boolean rightShoulderReleased = Robot.f310.getButtonReleased(F310.rightShoulderButton);
+     accel = new BuiltInAccelerometer();
 
-    if(resultant<=3)
-    // Enable driving only while g-forces are less than 3G
-    {
-      if (Robot.f310.getButton(F310.rightShoulderButton)) 
-      {
-        differentialDrive.arcadeDrive(changeSpeedSlow(moveSpeed), changeSpeedSlow(rotateSpeed));  
-      }
-      else 
-      {
-        differentialDrive.arcadeDrive(changeSpeedFast(moveSpeed), changeSpeedFast(rotateSpeed)); 
-      }
-    }
+     double xAccel = accel.getX();
+     double yAccel = accel.getY();
+     double zAccel = accel.getZ();
   
-    accel.close();
+     double c1 = Math.sqrt(Math.pow(xAccel,2)+Math.pow(yAccel,2));
+     double c2 = Math.sqrt(Math.pow(xAccel,2)+Math.pow(zAccel,2));
+  
+     double resultant = Math.sqrt(Math.pow(c1,2)+Math.pow(c2,2));
+
+     if(resultant<=3)
+     // Enable driving only while g-forces are less than 3G
+     {
+       if (Robot.f310.getButton(F310.leftShoulderButton)) 
+       {
+         differentialDrive.arcadeDrive(changeSpeedSlow(moveSpeed), changeSpeedSlow(-rotateSpeed));  
+       }
+       else 
+       {
+         differentialDrive.arcadeDrive(changeSpeedFast(moveSpeed), changeSpeedFast(-rotateSpeed)); 
+       }
+     }
+  
+     accel.close();
     
-  }
+   }
 
-  public void strafeDrive(double moveSpeed, double rotateSpeed) {
-    differentialDriveStrafe.arcadeDrive(moveSpeed, rotateSpeed);
-    differentialDriveStrafe2.arcadeDrive(moveSpeed, rotateSpeed);
+   public void strafeDrive(double moveSpeed, double rotateSpeed) {
+     differentialDriveStrafe.arcadeDrive(moveSpeed, rotateSpeed);
+     differentialDriveStrafe2.arcadeDrive(moveSpeed, rotateSpeed);
     
-  }
+   }
 
 
   @Override

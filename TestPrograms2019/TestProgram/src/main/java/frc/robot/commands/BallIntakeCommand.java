@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import frc.robot.Robot;
-
+import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.F310;
@@ -34,11 +34,11 @@ public class BallIntakeCommand extends Command {
     		Robot.ballIntake.stopIntake();
         }
         
-        if(Robot.f310.getButton(F310.leftShoulderButton)){
+        if(Robot.f310.getDPadPOV()==RobotMap.F310_DPAD_LEFT){
     		//Attempt at open/close jaw
     		Robot.ballIntake.openJaw();
     	} 
-		else if(Robot.f310.getButton(F310.rightShoulderButton)){
+		else if(Robot.f310.getDPadPOV()==RobotMap.F310_DPAD_RIGHT){
     		Robot.ballIntake.closeJaw();
     	}
 		else {

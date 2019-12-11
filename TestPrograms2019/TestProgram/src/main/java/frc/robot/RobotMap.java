@@ -44,8 +44,8 @@ public class RobotMap {
   public static final int SOLENOID_FORWARD = 0;
   public static final int SOLENOID_REVERSE = 1;
   
-  public static final int JAW_MOTOR = 2;
-  public static final int INTAKE_MOTOR = 6;
+  public static final int JAW_MOTOR = 6;
+  public static final int INTAKE_MOTOR = 2;
 
   public static final int ELEVATOR_MOTOR = 13;
 
